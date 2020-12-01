@@ -1,0 +1,65 @@
+Turbo Assembler	 Version 3.0	    10/25/20 16:21:38	    Page 1
+l3a8.ASM
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100
+      3	0000			     .data
+      4	0000  30 31 34 39		     tabc db '0149'
+      5	0004			     .code
+      6					     ; muta adresa segmentului de date in DS
+      7	0000				     initializare:
+      8	0000  B8 0000s				     mov ax, @data
+      9	0003  8E D8				     mov ds, ax
+     10	0005				     start:
+     11	0005  B0 01				     mov al, 01h
+     12	0007  CD 21				     int 21h
+     13	0009  BB 0000r				     mov bx, offset tabc
+     14	000C  2C 30				     sub al, 30h
+     15	000E  D7				     xlat
+     16						     ;mov al, [al]
+     17	000F  8A D0				     mov dl, al
+     18	0011  B4 02				     mov ah, 02h
+     19	0013  CD 21				     int 21h
+     20					     ; iesire din program
+     21	0015				     sfarsit:
+     22	0015  B4 4C				     mov ah, 4ch     ; functia DOS de iesire in	sistemul de operare
+     23	0017  CD 21				     int 21h
+     24				     end
+Turbo Assembler	 Version 3.0	    10/25/20 16:21:38	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "10/25/20"
+??FILENAME			  Text	 "l3a8	  "
+??TIME				  Text	 "16:21:38"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 L3A8
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+INITIALIZARE			  Near	 _TEXT:0000
+SFARSIT				  Near	 _TEXT:0015
+START				  Near	 _TEXT:0005
+TABC				  Byte	 DGROUP:0000
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  0004 Word	  Public  DATA
+_TEXT				  16  0019 Word	  Public  CODE
+

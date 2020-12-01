@@ -1,0 +1,75 @@
+Turbo Assembler	 Version 3.0	    11/01/20 13:55:29	    Page 1
+HW_LCVT.ASM
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100
+      3	0000			     .code
+      4	0000				     start:
+      5	0000  B8 145A				     mov ax, 145Ah
+      6	0003  BB 789F				     mov bx, 789Fh
+      7	0006  B9 9245				     mov cx, 9245h
+      8	0009  BA 7ABC				     mov dx, 7ABCh
+      9	000C  03 C1				     add ax, cx
+     10	000E  03 DA				     add bx, dx
+     11	0010  8B C8				     mov cx, ax
+     12	0012  8B D3				     mov dx, bx
+     13	0014  8E D8				     mov ds, ax
+     14	0016  B0 00				     mov al, 0
+     15	0018				     repet:
+     16	0018  8B D9				     mov bx, cx
+     17	001A  50				     push ax
+     18	001B  D7				     xlat
+     19	001C  E8 0009				     call afisare
+     20	001F  58				     pop ax
+     21	0020  FE C0				     inc al
+     22	0022  3C 10				     cmp al, 10h
+     23	0024  74 09				     jz	sfarsit
+     24	0026  EB F0				     jmp repet
+     25
+     26	0028				     afisare proc
+     27	0028  8A D0				     mov dl, al
+     28	002A  B4 02				     mov ah, 2h
+     29	002C  CD 21				     int 21h
+     30	002E  C3				     ret
+     31	002F				     afisare endp
+     32	002F				     sfarsit:
+     33	002F  B8 4C00				     mov ax, 4C00h
+     34				     end start
+Turbo Assembler	 Version 3.0	    11/01/20 13:55:29	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "11/01/20"
+??FILENAME			  Text	 "HW_LCVT "
+??TIME				  Text	 "13:55:29"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 HW_LCVT
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+AFISARE				  Near	 _TEXT:0028
+REPET				  Near	 _TEXT:0018
+SFARSIT				  Near	 _TEXT:002F
+START				  Near	 _TEXT:0000
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  0000 Word	  Public  DATA
+_TEXT				  16  0032 Word	  Public  CODE
+

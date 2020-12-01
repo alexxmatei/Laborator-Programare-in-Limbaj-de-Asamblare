@@ -1,0 +1,83 @@
+Turbo Assembler	 Version 3.0	    11/26/20 16:58:36	    Page 1
+l5a5.ASM
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100
+      3	0000			     .data
+      4	0000  31 32 33 34 35 36	37+	     sir1 db '1234567890123', 0
+      5	      38 39 30 31 32 33	00
+      6	000E  33 32 31 30 39 38	37+	     sir2 db '3210987654321', 0
+      7	      36 35 34 33 32 31	00
+      8	      =000E			     rezLen equ	$-sir2
+      9	001C  0D*(??)			     sirRez db rezLen-1	dup(?)
+     10	0029			     .code
+     11	0000				     program:
+     12					     ; muta adresa segmentului de date in DS
+     13	0000				     initializare:
+     14	0000  B8 0000s				     mov ax, @data
+     15	0003  8E D8				     mov ds, ax
+     16	0005  8E C0				     mov es, ax
+     17	0007  BE 0000r				     lea si, sir1
+     18	000A  BF 0000				     mov di, 0
+     19	000D  B9 000E				     mov cx, rezLen
+     20	0010				     start:
+     21	0010  BB 0001				     mov bx, size sir1
+     22						     ;mov bx, [si]
+     23						     ;cmp byte ptr [si], 0
+     24						     ;je sfarsit
+     25	0013  AC				     lodsb
+     26	0014  2C 30				     sub al, '0'
+     27	0016  8A 9D 000Er			     mov bl, sir2[di]
+     28	001A  80 EB 30				     sub bl, '0'
+     29	001D  02 C3				     add al, bl
+     30	001F  27				     daa
+     31	0020  88 85 001Cr			     mov sirRez[di], al
+     32	0024  47				     inc di
+     33	0025  E2 E9				     loop start
+     34					     ; iesire din program
+     35	0027				     sfarsit:
+     36	0027  B4 4C				     mov ah, 4Ch     ; functia DOS de iesire din program
+     37	0029  CD 21				     int 21h
+     38				     end program
+Turbo Assembler	 Version 3.0	    11/26/20 16:58:36	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "11/26/20"
+??FILENAME			  Text	 "l5a5	  "
+??TIME				  Text	 "16:58:36"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 L5A5
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+INITIALIZARE			  Near	 _TEXT:0000
+PROGRAM				  Near	 _TEXT:0000
+REZLEN				  Number 000E
+SFARSIT				  Near	 _TEXT:0027
+SIR1				  Byte	 DGROUP:0000
+SIR2				  Byte	 DGROUP:000E
+SIRREZ				  Byte	 DGROUP:001C
+START				  Near	 _TEXT:0010
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  0029 Word	  Public  DATA
+_TEXT				  16  002B Word	  Public  CODE
+

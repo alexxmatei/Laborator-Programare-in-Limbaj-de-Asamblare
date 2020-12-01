@@ -1,0 +1,78 @@
+Turbo Assembler	 Version 3.0	    11/08/20 17:07:39	    Page 1
+hw_pab.ASM
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100
+      3	0000			     .data
+      4	0000  00FF			     numar dw 00FFh
+      5	0002  ????????			     rez dd ?
+      6	0006			     .code
+      7	0000			     afisare proc
+      8	0000  80 C2 30			     add dl,'0'
+      9	0003  B4 02			     mov ah,2h
+     10	0005  CD 21			     int 21h
+     11	0007  C3			     ret
+     12	0008			     afisare endp
+     13	0008			     start:
+     14	0008  B8 0000s			     mov ax,@data
+     15	000B  8E D8			     mov ds,ax
+     16	000D  BB 000A			     mov bx,10
+     17	0010  BE 0000			     mov si,0
+     18	0013  BA 0000			     mov dx, 0
+     19	0016			     conv:
+     20	0016  F7 F3			     div bx
+     21	0018  88 94 0002r		     mov byte ptr rez[si],dl
+     22	001C  BA 0000			     mov dx,0
+     23	001F  46			     inc si
+     24	0020  3B C3			     cmp ax,bx
+     25	0022  77 F2			     ja	conv
+     26	0024  88 84 0002r		     mov byte ptr rez[si],al
+     27	0028			     repet:
+     28	0028  8A 94 0002r		     mov dl,byte ptr rez[si]
+     29	002C  E8 FFD1			     call afisare
+     30	002F  4E			     dec si
+     31	0030  83 FE 00			     cmp si,0
+     32	0033  79 F3			     jns repet
+     33	0035  B4 4C			     mov ah,4ch
+     34	0037  CD 21			     int 21h
+     35				     end start
+Turbo Assembler	 Version 3.0	    11/08/20 17:07:39	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "11/08/20"
+??FILENAME			  Text	 "hw_pab  "
+??TIME				  Text	 "17:07:39"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 HW_PAB
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+AFISARE				  Near	 _TEXT:0000
+CONV				  Near	 _TEXT:0016
+NUMAR				  Word	 DGROUP:0000
+REPET				  Near	 _TEXT:0028
+REZ				  Dword	 DGROUP:0002
+START				  Near	 _TEXT:0008
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  0006 Word	  Public  DATA
+_TEXT				  16  0039 Word	  Public  CODE
+

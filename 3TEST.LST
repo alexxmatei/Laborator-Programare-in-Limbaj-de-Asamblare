@@ -1,0 +1,91 @@
+Turbo Assembler	 Version 3.0	    11/19/20 09:56:49	    Page 1
+3test.ASM
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100
+      3	0000			     .data
+      4	0000  00EC		     var1 dw 0ECh
+      5	0002  F2		     var2 db 0F2h
+      6	0003  37 35 34 33 34	     tabc db '75434'
+      7
+      8
+      9
+     10
+     11
+     12
+     13
+     14
+     15
+     16	0008			     .code
+     17	0000				     program:
+     18					     ; muta adresa segmentului de date in DS
+     19	0000				     initializare:
+     20	0000  B8 0000s				     mov ax, @data
+     21	0003  8E D8				     mov ds, ax
+     22	0005				     start:
+     23	0005  A1 0000r				     MOV AX, var1
+     24	0008  8B 1E 0002r			     MOV BX, WORD PTR var2
+     25	000C  03 C3				     ADD AX, BX
+     26	000E  F7 D0				     NOT AX
+     27	0010  50				     PUSH AX
+     28	0011  83 F3 01				     XOR BX, 01h
+     29	0014  53				     PUSH BX
+     30	0015  93				     XCHG AX, BX
+     31	0016  B8 FFFF				     Mov ax, 0FFFFh
+     32	0019  25 000F				     AND AX, 0Fh
+     33	001C  D1 E8 D1 E8			     SHR AX, 2h
+     34	0020  3D 000A				     CMP AX, 0Ah
+     35	0023  7E 01				     JLE salt
+     36	0025  43				     INC BX
+     37	0026  B0 00				     salt: MOV AL, 00h
+     38	0028  BB 0003r				     MOV BX, offset tabc
+     39	002B  D7				     XLAT
+     40	002C  58				     POP AX
+     41	002D  5B				     POP BX
+     42					     ; iesire din program
+     43	002E				     sfarsit:
+     44	002E  B4 4C				     mov ah, 4Ch     ; functia DOS de iesire din program
+     45	0030  CD 21				     int 21h
+     46				     end program
+Turbo Assembler	 Version 3.0	    11/19/20 09:56:49	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "11/19/20"
+??FILENAME			  Text	 "3test	  "
+??TIME				  Text	 "09:56:49"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 3TEST
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+INITIALIZARE			  Near	 _TEXT:0000
+PROGRAM				  Near	 _TEXT:0000
+SALT				  Near	 _TEXT:0026
+SFARSIT				  Near	 _TEXT:002E
+START				  Near	 _TEXT:0005
+TABC				  Byte	 DGROUP:0003
+VAR1				  Word	 DGROUP:0000
+VAR2				  Byte	 DGROUP:0002
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  0008 Word	  Public  DATA
+_TEXT				  16  0032 Word	  Public  CODE
+

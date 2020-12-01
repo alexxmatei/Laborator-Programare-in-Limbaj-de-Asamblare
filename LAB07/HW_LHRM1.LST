@@ -1,0 +1,81 @@
+Turbo Assembler	 Version 3.0	    11/24/20 08:31:07	    Page 1
+HW_LHRM1.ASM
+
+
+
+      1				     ;Exercitiul 1
+      2	0000			     .model small
+      3	0000			     .stack 100
+      4	0000			     .data
+      5	0000  4D 61 72 63 65 6C		     taba db 'Marcel'
+      6	0006  06*(??)			     tabb db 6 DUP (?)
+      7	000C			     .code
+      8	0000				     start:
+      9	0000  B8 0000s				     mov ax,@data
+     10	0003  8E D8				     mov ds,ax
+     11						     ;mov es,ax
+     12	0005  B0 00				     mov al,0
+     13	0007  BE 0000r				     lea si, taba
+     14	000A  BF 0006r				     lea di, tabb
+     15	000D  B9 0006				     mov cx, 6
+     16	0010  F3> A4				     rep movs es:[tabb],ds:[taba]
+     17						     ;lods es:[taba]
+     18						     ;stos es:[tabb]
+     19	0012					     repet:
+     20	0012  BB 0006r				     mov bx, offset tabb
+     21	0015  50				     push ax
+     22	0016  D7				     xlat
+     23	0017  E8 0009				     call afisare
+     24	001A  58				     pop ax
+     25	001B  FE C0				     inc al
+     26	001D  3C 06				     cmp al,06H
+     27	001F  74 09				     jz	sfarsit
+     28	0021  EB EF				     jmp repet
+     29	0023				     afisare proc
+     30	0023  8A D0				     mov dl,al
+     31	0025  B4 02				     mov ah,2h
+     32	0027  CD 21				     int 21h
+     33	0029  C3				     ret
+     34	002A				     afisare endp
+     35	002A				     sfarsit:
+     36	002A  B8 4C00				     mov ax,4c00h
+     37	002D  CD 21				     int 21h
+     38				     end start
+Turbo Assembler	 Version 3.0	    11/24/20 08:31:07	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "11/24/20"
+??FILENAME			  Text	 "HW_LHRM1"
+??TIME				  Text	 "08:31:07"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 HW_LHRM1
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+AFISARE				  Near	 _TEXT:0023
+REPET				  Near	 _TEXT:0012
+SFARSIT				  Near	 _TEXT:002A
+START				  Near	 _TEXT:0000
+TABA				  Byte	 DGROUP:0000
+TABB				  Byte	 DGROUP:0006
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  000C Word	  Public  DATA
+_TEXT				  16  002F Word	  Public  CODE
+

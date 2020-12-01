@@ -1,0 +1,150 @@
+Turbo Assembler	 Version 3.0	    11/26/20 06:40:17	    Page 1
+l6p3.ASM
+
+
+
+      1				     afisare_cifra MACRO a
+      2					     mov dl, a	  ; cifra de afisat
+      3					     add dl, 30h  ; caracterul ASCII al	cifrei
+      4					     mov ah, 2h	  ; afisare caracter ASCII
+      5					     int 21h
+      6				     ENDM
+      7
+      8				     afisare_ch	MACRO a
+      9					     mov dl, a	  ; cifra de afisat
+     10					     mov ah, 2h	  ; afisare caracter ASCII
+     11					     int 21h
+     12				     ENDM
+     13
+     14				     exit_dos MACRO
+     15					     mov ah, 4Ch     ; functia DOS de iesire din program
+     16					     int 21h
+     17				     ENDM
+     18
+     19				     citire_ch macro
+     20					     mov ah, 07h
+     21					     int 21h
+     22				     ENDM
+     23
+     24				     cautare_ch	MACRO sir, lungime_sir
+     25					     lea di, sir     ; DI = adresa sirului
+     26					     cld
+     27					     citire_ch
+     28					     ;mov al, 's'     ;	litera cautata
+     29					     mov cx, lungime_sir
+     30					     ; repeta cat timp nu este egal sau	pana c = 0
+     31					     repne scasb
+     32					     mov ax, lungime_sir
+     33					     ; index litera = lung - contor
+     34					     sub ax, cx
+     35				     ENDM
+     36
+     37	0000			     .model small
+     38	0000			     .stack 100
+     39	0000			     .data
+     40	0000  61 73 61 6D 62 6C	61+	     sir db 'asamblare'
+     41	      72 65
+     42	      =0009			     lungime_sir equ $-sir
+     43	0009  49 6E 74 72 6F 64	75+	     sir2 db 'Introduceti litera cautata:', 0
+     44	      63 65 74 69 20 6C	69+
+     45	      74 65 72 61 20 63	61+
+     46	      75 74 61 74 61 3A	00
+     47	0025			     .code
+     48	0000				     program:
+     49					     ; muta adresa segmentului de date in DS
+     50	0000				     initializare:
+     51	0000  B8 0000s				     mov ax, @data
+     52	0003  8E C0				     mov es, ax
+     53	0005  8E D8				     mov ds, ax
+     54	0007				     start:
+     55	0007  BE 0009r				     lea si, sir2
+     56	000A  BF 0009r				     lea di, sir2
+     57	000D				     comparare:
+Turbo Assembler	 Version 3.0	    11/26/20 06:40:17	    Page 2
+l6p3.ASM
+
+
+
+     58	000D  B0 00				     mov al, 0
+     59	000F  AE				     scasb
+     60	0010  AC				     lodsb
+     61	0011  75 03				     jnz afisareLitera
+     62	0013  EB 09 90				     jmp sirParcurs
+     63	0016				     afisareLitera:
+     64						     afisare_ch	al
+1    65	0016  8A D0			     mov dl, al	   ; cifra de afisat
+1    66	0018  B4 02			     mov ah, 2h	  ; afisare caracter ASCII
+1    67	001A  CD 21			     int 21h
+     68	001C  EB EF				     jmp comparare
+     69	001E				     sirParcurs:
+     70						     cautare_ch	sir, lungime_sir
+1    71	001E  BF 0000r			     lea di, sir     ; DI = adresa sirului
+1    72	0021  FC			     cld
+1    73					     citire_ch
+2    74	0022  B4 07			     mov ah, 07h
+2    75	0024  CD 21			     int 21h
+1    76					     ;mov al, 's'     ;	litera cautata
+1    77	0026  B9 0009			     mov cx, lungime_sir
+1    78					     ; repeta cat timp nu este egal sau	pana c = 0
+1    79	0029  F2> AE			     repne scasb
+1    80	002B  B8 0009			     mov ax, lungime_sir
+1    81					     ; index litera = lung - contor
+1    82	002E  2B C1			     sub ax, cx
+     83						     afisare_cifra al
+1    84	0030  8A D0			     mov dl, al	   ; cifra de afisat
+1    85	0032  80 C2 30			     add dl, 30h  ; caracterul ASCII al	cifrei
+1    86	0035  B4 02			     mov ah, 2h	  ; afisare caracter ASCII
+1    87	0037  CD 21			     int 21h
+     88						     exit_dos
+1    89	0039  B4 4C			     mov ah, 4Ch     ; functia DOS de iesire din program
+1    90	003B  CD 21			     int 21h
+     91				     end program
+Turbo Assembler	 Version 3.0	    11/26/20 06:40:17	    Page 3
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "11/26/20"
+??FILENAME			  Text	 "l6p3	  "
+??TIME				  Text	 "06:40:17"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 L6P3
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+AFISARELITERA			  Near	 _TEXT:0016
+COMPARARE			  Near	 _TEXT:000D
+INITIALIZARE			  Near	 _TEXT:0000
+LUNGIME_SIR			  Number 0009
+PROGRAM				  Near	 _TEXT:0000
+SIR				  Byte	 DGROUP:0000
+SIR2				  Byte	 DGROUP:0009
+SIRPARCURS			  Near	 _TEXT:001E
+START				  Near	 _TEXT:0007
+
+Macro Name
+
+AFISARE_CH
+AFISARE_CIFRA
+CAUTARE_CH
+CITIRE_CH
+EXIT_DOS
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  0025 Word	  Public  DATA
+_TEXT				  16  003D Word	  Public  CODE
+

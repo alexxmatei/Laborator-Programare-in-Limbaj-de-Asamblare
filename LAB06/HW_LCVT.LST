@@ -1,0 +1,81 @@
+Turbo Assembler	 Version 3.0	    11/08/20 17:10:37	    Page 1
+hw_lcvt.ASM
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100
+      3	0000			     .data
+      4	0000  00FF			     numar dw 255
+      5	0002  ??			     rez   db ?
+      6
+      7	0003			     .code
+      8	0000			     afisare proc
+      9	0000  80 C2 30			     add dl, '0'
+     10	0003  B4 02			     mov ah, 2h
+     11	0005  CD 21			     int 21h
+     12	0007  C3			     ret
+     13	0008			     afisare endp
+     14
+     15	0008			     start:
+     16	0008  B8 0000s			     mov ax, @data
+     17	000B  8E D8			     mov ds, ax
+     18	000D  A1 0000r			     mov ax, numar
+     19	0010  BB 000A			     mov bx, 10
+     20	0013  BE 0000			     mov si, 0
+     21	0016  BA 0000			     mov dx, 0
+     22	0019			     conversie:
+     23	0019  F7 F3			     div bx
+     24	001B  88 94 0002r		     mov byte ptr rez[si], dl
+     25	001F  BA 0000			     mov dx, 0
+     26	0022  46			     inc si
+     27	0023  3B C3			     cmp ax, bx
+     28	0025  77 F2			     ja	conversie
+     29	0027  88 84 0002r		     mov byte ptr rez[si], al
+     30	002B			     repet:
+     31	002B  8A 94 0002r		     mov dl, byte ptr rez[si]
+     32	002F  E8 FFCE			     call afisare
+     33	0032  4E			     dec si
+     34	0033  83 FE 00			     cmp si, 0
+     35	0036  79 F3			     jns repet
+     36	0038  B4 4C			     mov ah, 4ch
+     37	003A  CD 21			     int 21h
+     38				     end start
+Turbo Assembler	 Version 3.0	    11/08/20 17:10:37	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "11/08/20"
+??FILENAME			  Text	 "hw_lcvt "
+??TIME				  Text	 "17:10:37"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 HW_LCVT
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+AFISARE				  Near	 _TEXT:0000
+CONVERSIE			  Near	 _TEXT:0019
+NUMAR				  Word	 DGROUP:0000
+REPET				  Near	 _TEXT:002B
+REZ				  Byte	 DGROUP:0002
+START				  Near	 _TEXT:0008
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  0003 Word	  Public  DATA
+_TEXT				  16  003C Word	  Public  CODE
+

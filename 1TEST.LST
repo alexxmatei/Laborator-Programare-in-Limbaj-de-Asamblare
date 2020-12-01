@@ -1,0 +1,60 @@
+Turbo Assembler	 Version 3.0	    11/08/20 15:45:04	    Page 1
+1test.ASM
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100
+      3	0000			     .data
+      4
+      5	0000			     .code
+      6	0000				     program:
+      7					     ; muta adresa segmentului de date in DS
+      8	0000				     initializare:
+      9	0000  B8 0000s				     mov ax, @data
+     10	0003  8E D8				     mov ds, ax
+     11	0005				     start:
+     12	0005  B8 0000			     mov ax, 0
+     13	0008  33 C0				     xor ax, ax
+     14
+     15					     ; iesire din program
+     16	000A				     sfarsit:
+     17	000A  B4 4C				     mov ah, 4Ch     ; functia DOS de iesire din program
+     18	000C  CD 21				     int 21h
+     19				     end program
+Turbo Assembler	 Version 3.0	    11/08/20 15:45:04	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "11/08/20"
+??FILENAME			  Text	 "1test	  "
+??TIME				  Text	 "15:45:04"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 1TEST
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+INITIALIZARE			  Near	 _TEXT:0000
+PROGRAM				  Near	 _TEXT:0000
+SFARSIT				  Near	 _TEXT:000A
+START				  Near	 _TEXT:0005
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  0000 Word	  Public  DATA
+_TEXT				  16  000E Word	  Public  CODE
+

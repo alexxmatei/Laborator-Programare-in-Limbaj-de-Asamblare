@@ -1,0 +1,137 @@
+Turbo Assembler	 Version 3.0	    10/25/20 15:40:31	    Page 1
+l3a5.ASM
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100
+      3	0000			     .data
+      4	0000  145A789F			     nr1 dd 145A789Fh
+      5	0004  92457ABC			     nr2 dd 92457ABCh
+      6	0008  30 31 32 33 34 35	36+	     tabc db '0123456789ABCDEF'
+      7	      37 38 39 41 42 43	44+
+      8	      45 46
+      9	0018			     .code
+     10					     ; muta adresa segmentului de date in DS
+     11	0000				     initializare:
+     12	0000  B8 0000s				     mov ax, @data
+     13	0003  8E D8				     mov ds, ax
+     14	0005				     start:
+     15	0005  A1 0000r				     mov ax, word ptr nr1
+     16	0008  8B 1E 0004r			     mov bx, word ptr nr2
+     17	000C  03 C3				     add ax, bx
+     18	000E  50				     push ax
+     19	000F  A1 0002r				     mov ax, word ptr [nr1 + 2]
+     20	0012  8B 1E 0006r			     mov bx, word ptr [nr2 + 2]
+     21	0016  03 C3				     add ax, bx
+     22	0018  50				     push ax
+     23	0019  8B EC					     mov bp, sp
+     24	001B  45					     inc bp
+     25	001C					     repet:
+     26	001C  B0 00					     mov al, 0
+     27	001E  BB 0000					     mov bx, 0
+     28	0021  E8 0002					     call afisare
+     29	0024  EB F6					     jmp repet
+     30	0026					     afisare proc
+     31	0026  8A 56 00					     mov dl, byte ptr [bp]
+     32	0029  D0 EA D0 EA D0 EA	D0+			     shr dl, 4
+     33	      EA
+     34	0031  8A DA					     mov bl, dl
+     35	0033  B0 08r					     mov al, offset tabc
+     36	0035  D7					     xlat
+     37	0036  8A D0					     mov dl, al
+     38	0038  B4 02					     mov ah, 2h
+     39	003A  CD 21					     int 21h
+     40
+     41	003C  8A 56 00					     mov dl, byte ptr [bp]
+     42	003F  D0 E2 D0 E2 D0 E2	D0+			     shl dl, 4
+     43	      E2
+     44	0047  D0 EA D0 EA D0 EA	D0+			     shr dl, 4
+     45	      EA
+     46	004F  8A DA					     mov bl, dl
+     47	0051  B0 08r					     mov al, offset tabc
+     48	0053  D7					     xlat
+     49	0054  8A D0					     mov dl, al
+     50	0056  B4 02					     mov ah, 2h
+     51	0058  CD 21					     int 21h
+     52
+     53	005A  8A 56 FF					     mov dl, byte ptr [bp - 1]
+     54	005D  D0 EA D0 EA D0 EA	D0+			     shr dl, 4
+     55	      EA
+     56	0065  8A DA					     mov bl, dl
+     57	0067  B0 08r					     mov al, offset tabc
+Turbo Assembler	 Version 3.0	    10/25/20 15:40:31	    Page 2
+l3a5.ASM
+
+
+
+     58	0069  D7					     xlat
+     59	006A  8A D0					     mov dl, al
+     60	006C  B4 02					     mov ah, 2h
+     61	006E  CD 21					     int 21h
+     62
+     63	0070  8A 56 FF					     mov dl, byte ptr [bp - 1]
+     64	0073  D0 E2 D0 E2 D0 E2	D0+			     shl dl, 4
+     65	      E2
+     66	007B  D0 EA D0 EA D0 EA	D0+			     shr dl, 4
+     67	      EA
+     68	0083  8A DA					     mov bl, dl
+     69	0085  B0 08r					     mov al, offset tabc
+     70	0087  D7					     xlat
+     71	0088  8A D0					     mov dl, al
+     72	008A  B4 02					     mov ah, 2h
+     73	008C  CD 21					     int 21h
+     74
+     75	008E  B2 20					     mov dl, ' '
+     76	0090  CD 21					     int 21h
+     77
+     78	0092  83 C5 02					     add bp, 2
+     79	0095  83 FD 65					     cmp bp, 65h
+     80	0098  74 01					     jz	sfarsit
+     81	009A  C3					     ret
+     82	009B					     afisare endp
+     83					     ; iesire din program
+     84	009B				     sfarsit:
+     85	009B  B4 4C				     mov ah, 4ch     ; functia DOS de iesire in	sistemul de operare
+     86	009D  CD 21				     int 21h
+     87				     end
+Turbo Assembler	 Version 3.0	    10/25/20 15:40:31	    Page 3
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "10/25/20"
+??FILENAME			  Text	 "l3a5	  "
+??TIME				  Text	 "15:40:31"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 L3A5
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+AFISARE				  Near	 _TEXT:0026
+INITIALIZARE			  Near	 _TEXT:0000
+NR1				  Dword	 DGROUP:0000
+NR2				  Dword	 DGROUP:0004
+REPET				  Near	 _TEXT:001C
+SFARSIT				  Near	 _TEXT:009B
+START				  Near	 _TEXT:0005
+TABC				  Byte	 DGROUP:0008
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  0018 Word	  Public  DATA
+_TEXT				  16  009F Word	  Public  CODE
+

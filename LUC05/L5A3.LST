@@ -1,0 +1,76 @@
+Turbo Assembler	 Version 3.0	    11/12/20 11:33:07	    Page 1
+l5a3.ASM
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100
+      3	0000			     .data
+      4	0000  31 32 33 34 35 36	2E+	     sir1 db '123456.89'
+      5	      38 39
+      6	0009  31 32 33 34 35 36	37+	     sir2 db '123456789'
+      7	      38 39
+      8	0012  00000000sr	  +	     ptr_str1 dd sir1, sir2
+      9	      00000009sr
+     10	001A			     .code
+     11	0000				     program:
+     12					     ; muta adresa segmentului de date in DS
+     13	0000				     initializare:
+     14	0000  B8 0000s				     mov ax, @data
+     15	0003  8E D8				     mov ds, ax
+     16	0005  8E C0				     mov es, ax
+     17	0007  BE 0000r				     lea si, sir1
+     18	000A  BF 0009r				     lea di, sir2
+     19	000D  B9 0000				     mov cx, 0
+     20	0010				     compara:
+     21	0010  41				     inc cx
+     22	0011  AC				     lodsb
+     23	0012  AE				     scasb
+     24	0013  75 02				     jnz sfarsit
+     25	0015  EB F9				     jmp compara
+     26	0017				     start:
+     27					     ; iesire din program
+     28	0017				     sfarsit:
+     29	0017  B4 4C				     mov ah, 4Ch     ; functia DOS de iesire din program
+     30	0019  CD 21				     int 21h
+     31				     end program
+Turbo Assembler	 Version 3.0	    11/12/20 11:33:07	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "11/12/20"
+??FILENAME			  Text	 "l5a3	  "
+??TIME				  Text	 "11:33:07"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 L5A3
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+COMPARA				  Near	 _TEXT:0010
+INITIALIZARE			  Near	 _TEXT:0000
+PROGRAM				  Near	 _TEXT:0000
+PTR_STR1			  Dword	 DGROUP:0012
+SFARSIT				  Near	 _TEXT:0017
+SIR1				  Byte	 DGROUP:0000
+SIR2				  Byte	 DGROUP:0009
+START				  Near	 _TEXT:0017
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  001A Word	  Public  DATA
+_TEXT				  16  001B Word	  Public  CODE
+

@@ -1,0 +1,88 @@
+Turbo Assembler	 Version 3.0	    10/15/20 16:47:04	    Page 1
+exsupl.ASM
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100
+      3	0000			     .data
+      4	0000  0F FF 0F 0F FF 0F	FF+	     var1    db	     0Fh, 0FFH,	15, 15d, 255, 00001111b, 11111111b, 017o, 277o
+      5	      0F BF
+      6	0009  ABA3 0BA3			     var2    dw	     0ABA3h, 0BA3h
+      7	000D			     .code
+      8	0000				     start:
+      9	0000  B8 0000s				     mov ax, @data
+     10	0003  8E D8				     mov ds, ax
+     11	0005  A0 0000r				     mov al, var1
+     12	0008  8A 1E 0002r			     mov bl, var1+2
+     13	000C  8A 0E 0003r			     mov cl, var1+3
+     14	0010  8A 16 0005r			     mov dl, var1+5
+     15	0014  8A 16 0007r			     mov dl, var1+7
+     16	0018  A0 0001r				     mov al, var1+1
+     17	001B  8A 1E 0004r			     mov bl, var1+4
+     18	001F  8A 0E 0006r			     mov cl, var1+6
+     19	0023  8A 16 0008r			     mov dl, var1+8
+     20	0027  A1 0009r				     mov ax, var2
+     21	002A  A1 000Br				     mov ax, var2+2
+     22	002D  A1 000Ar				     mov ax, var2+1
+     23	0030  8B 1E 000Ar			     mov bx, var2+1
+     24	0034  8B 1E 000Br			     mov bx, var2+2
+     25	0038  8B 0E 000Cr			     mov cx, var2+3
+     26	003C  BB 0000r				     mov bx, offset var1
+     27	003F  8B 0F				     mov cx, [bx]
+     28	0041  8B 57 01				     mov dx, [bx+1]
+     29	0044  BB 0009r				     mov bx, offset var2
+     30	0047  8B 0F				     mov cx, [bx]
+     31	0049  8B 57 01				     mov dx, [bx+1]
+     32	004C  BE 0009r				     mov si, offset var2
+     33	004F  8B 0C				     mov cx, [si]
+     34	0051  8B 54 01				     mov dx, [si+1]
+     35	0054  B8 1234				     mov ax, 1234H
+     36	0057  50				     push ax
+     37	0058  50				     push ax
+     38	0059  8B EC				     mov bp, sp
+     39	005B  8B 4E 00				     mov cx, [bp]
+     40	005E  8B 56 01				     mov dx, [bp+1]
+     41	0061  BB 0009r				     mov bx, offset var2
+     42	0064  BE 0001				     mov si, 1
+     43	0067  8B 10				     mov dx, [bx+si]
+     44	0069  8B 50 01				     mov dx, [bx+si+1]
+     45	006C  8B 50 01				     mov dx, [bx][si][1]
+     46	006F  B4 4C				     mov     ah, 4ch
+     47	0071  CD 21				     int	21h
+     48					     end start
+Turbo Assembler	 Version 3.0	    10/15/20 16:47:04	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "10/15/20"
+??FILENAME			  Text	 "exsupl  "
+??TIME				  Text	 "16:47:04"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 EXSUPL
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+START				  Near	 _TEXT:0000
+VAR1				  Byte	 DGROUP:0000
+VAR2				  Word	 DGROUP:0009
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  000D Word	  Public  DATA
+_TEXT				  16  0073 Word	  Public  CODE
+

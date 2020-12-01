@@ -1,0 +1,140 @@
+Turbo Assembler	 Version 3.0	    10/25/20 12:04:07	    Page 1
+l3e2.ASM
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100
+      3	0000			     .data
+      4
+      5	0000			     .code
+      6					     ; muta adresa segmentului de date in DS
+      7	0000				     initializare:
+      8	0000  B8 0000s				     MOV ax, @data
+      9	0003  8E D8				     MOV ds, ax
+     10	0005  B8 0000				     MOV ax, 0h
+     11	0008				     start:
+     12	0008				     instructiunea_CBW:
+     13						     ; CBW (Convert Byte to Word)
+     14						     ; - Extinde bitul de semn din AL la intreg	registrul AH
+     15						     ;	 astfel	se obtine o reprezentare a lui AX pe 4 octeti
+     16	0008  B0 7F				     MOV al, 7Fh;
+     17	000A  98				     CBW
+     18	000B  B0 8F				     MOV al, 8Fh;
+     19	000D  98				     CBW
+     20	000E				     instructiunea_MUL:
+     21						     ; MUL (Multiply) -	Inmultire
+     22						     ; MUL sursa
+     23						     ; AH:AL <-	AL * sursa (daca sursa este pe octet)
+     24						     ; DX:AX <-	AX * sursa (daca sursa este pe 2 octeti)
+     25	000E  B0 02				     MOV al, 02h
+     26	0010  B3 FF				     MOV bl, 0FFh
+     27	0012  F6 E3				     MUL bl
+     28	0014  B8 0002				     MOV ax, 02h
+     29	0017  B9 FFFF				     MOV cx, 0FFFFh
+     30	001A  F7 E1				     MUL cx
+     31	001C				     instructiunea_IMUL:
+     32						     ; IMUL (Integer Multiply) - Inmultire cu operanzi intregi
+     33						     ; IMUL sursa
+     34						     ;	- Se comporta similar cu instructiunea MUL
+     35
+     36	001C				     instructiunea_AAM:
+     37						     ; AAM (ASCII Adjust for Multiply)
+     38						     ;	- corectie zecimala a acumulatorului AX, dupa inmultire	pe 8 biti de tip BCD+
+     39				     despachetat
+     40	001C  B8 0005				     MOV ax, 5
+     41	001F  BB 0009				     MOV bx, 9
+     42	0022  F7 E3				     MUL bx
+     43	0024  D4 0A				     AAM
+     44	0026				     instructiunea_DIV:
+     45						     ; DIV (Divide) - Impartire
+     46						     ; DIV sursa
+     47						     ; Daca sursa este pe octet:
+     48						     ;	   AL <- AX / sursa
+     49						     ;	   AH <- AX % sursa (AX	mod sursa)
+     50						     ; Daca sursa este pe 2 octeti:
+     51						     ;	   AL <- DX:AX / sursa
+     52						     ;	   AH <- DX:AX % sursa (AX mod sursa)
+     53	0026  B8 0008				     MOV ax, 8
+     54	0029  B3 02				     MOV bl, 2
+     55	002B  F6 F3				     DIV bl
+     56	002D  B0 09				     MOV al, 9
+     57	002F  B3 02				     MOV bl, 2
+Turbo Assembler	 Version 3.0	    10/25/20 12:04:07	    Page 2
+l3e2.ASM
+
+
+
+     58	0031  F6 F3				     DIV bl
+     59	0033  B8 0200				     MOV ax, 512
+     60	0036  BB 0004				     MOV bx, 4
+     61	0039  F7 F3				     DIV bx
+     62	003B  B8 0201				     MOV ax, 513
+     63	003E  BB 0004				     MOV bx, 4
+     64	0041  F7 F3				     DIV bx
+     65	0043  BA 0000				     MOV dx, 0	   ; De	ce e necesara stergerea	lui DX ?
+     66	0046  B8 FFFF				     MOV ax, 0FFFFh
+     67	0049  BB 8000				     MOV bx,  8000h
+     68	004C  F7 F3				     DIV bx
+     69	004E				     instructiunea_IDIV:
+     70						     ; IDIV (Integer Divide) - Impartire cu operanzi intregi
+     71						     ; IDIV sursa
+     72						     ;	- Se comporta similar cu instructiunea DIV
+     73
+     74
+     75	004E				     instructiunea_AAD:
+     76						     ; AAM (ASCII Adjust for Division)
+     77						     ;	- corectie zecimala a acumulatorului AX, INAINTE de impartirea unui numar   +
+     78				     BCD pe 16 biti la un numar	BCD pe 8 biti
+     79	004E  B8 0909				     MOV ax, 0909h
+     80	0051  BB 0001				     MOV bx, 01h
+     81	0054  D5 0A				     AAD
+     82	0056  F6 F3				     DIV bl
+     83	0058  D5 0A				     AAD
+     84					     ; iesire din program
+     85	005A				     sfarsit:
+     86	005A  B4 4C				     MOV ah, 4ch     ; functia DOS de iesire in	sistemul de operare
+     87	005C  CD 21				     INT 21h
+     88				     end
+Turbo Assembler	 Version 3.0	    10/25/20 12:04:07	    Page 3
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "10/25/20"
+??FILENAME			  Text	 "l3e2	  "
+??TIME				  Text	 "12:04:07"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 L3E2
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+INITIALIZARE			  Near	 _TEXT:0000
+INSTRUCTIUNEA_AAD		  Near	 _TEXT:004E
+INSTRUCTIUNEA_AAM		  Near	 _TEXT:001C
+INSTRUCTIUNEA_CBW		  Near	 _TEXT:0008
+INSTRUCTIUNEA_DIV		  Near	 _TEXT:0026
+INSTRUCTIUNEA_IDIV		  Near	 _TEXT:004E
+INSTRUCTIUNEA_IMUL		  Near	 _TEXT:001C
+INSTRUCTIUNEA_MUL		  Near	 _TEXT:000E
+SFARSIT				  Near	 _TEXT:005A
+START				  Near	 _TEXT:0008
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  0000 Word	  Public  DATA
+_TEXT				  16  005E Word	  Public  CODE
+

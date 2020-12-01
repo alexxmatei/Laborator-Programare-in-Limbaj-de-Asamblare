@@ -1,0 +1,85 @@
+Turbo Assembler	 Version 3.0	    11/26/20 16:33:44	    Page 1
+1.ASM
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100
+      3	0000			     data1 SEGMENT BYTE
+      4	0000  55			     v1	db 55h
+      5	0001			     data1 ENDS
+      6
+      7	0000			     data2 SEGMENT WORD
+      8	0000  1111			     v2	dw 1111h
+      9	0002  32*(????)			     v3	dw 50 dup(?)
+     10	0066			     data2 ENDS
+     11
+     12	0000			     data3 SEGMENT
+     13	0000  00002222			     v4	dd 2222h
+     14	0004			     data3 ENDS
+     15
+     16				     dgrup GROUP data1,	data2, data3
+     17	0000			     cod SEGMENT
+     18					     ASSUME CS:	cod, DS: dgrup,	ES: data3
+     19	0000				     program:
+     20					     ; muta adresa segmentului de date in DS
+     21	0000				     initializare:
+     22	0000  B8 0000s				     mov ax, data1
+     23	0003  8E D8				     mov ds, ax
+     24	0005  A1 0000r				     mov ax, v2
+     25	0008  BB 0000s				     mov bx, data3
+     26	000B  8E C3				     mov es, bx
+     27	000D  8B 1E 0002r			     mov bx, v3
+     28	0011				     start:
+     29
+     30					     ; iesire din program
+     31	0011				     sfarsit:
+     32	0011  B4 4C				     mov ah, 4Ch     ; functia DOS de iesire din program
+     33	0013  CD 21				     int 21h
+     34	0015			     cod ENDS
+     35				     end program
+Turbo Assembler	 Version 3.0	    11/26/20 16:33:44	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "11/26/20"
+??FILENAME			  Text	 "1	  "
+??TIME				  Text	 "16:33:44"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 COD
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 1
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+INITIALIZARE			  Near	 COD:0000
+PROGRAM				  Near	 COD:0000
+SFARSIT				  Near	 COD:0011
+START				  Near	 COD:0011
+V1				  Byte	 DGRUP:0000
+V2				  Word	 DGRUP:0000
+V3				  Word	 DGRUP:0002
+V4				  Dword	 DGRUP:0000
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+COD				  16  0015 Para	  none
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  0000 Word	  Public  DATA
+DGRUP				  Group
+  DATA1				  16  0001 Byte	  none
+  DATA2				  16  0066 Word	  none
+  DATA3				  16  0004 Para	  none
+_TEXT				  16  0000 Word	  Public  CODE
+

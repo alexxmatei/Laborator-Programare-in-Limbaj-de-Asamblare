@@ -1,0 +1,67 @@
+Turbo Assembler	 Version 3.0	    10/22/20 17:38:06	    Page 1
+l2e4.asm
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100
+      3	0000			     .data
+      4	0000  1234			     adr1 dw 1234h
+      5	0002  5678			     adr2 dw 5678h
+      6	0004  9012			     adr3 dw 9012h
+      7	0006  3456			     adr4 dw 3456h
+      8	0008  00000000sr	  +	     tabela dd adr1, adr2, adr3, adr4
+      9	      00000002sr	  +
+     10	      00000004sr	  +
+     11	      00000006sr
+     12	0018			     .code
+     13	0000				     start:
+     14	0000  B8 0000s				     mov ax, @data
+     15	0003  8E D8				     mov ds, ax
+     16	0005  B9 0001				     mov cx, 1
+     17	0008  8B D9				     mov bx, cx
+     18	000A  03 DB				     add bx, bx
+     19	000C  03 DB				     add bx, bx
+     20	000E  C4 BF 0008r			     les di, tabela[bx]
+     21	0012  26: 8B 05				     mov ax, es:[di]
+     22	0015  B4 4C				     mov ah, 4Ch
+     23	0017  CD 21				     int 21h
+     24					     end start
+Turbo Assembler	 Version 3.0	    10/22/20 17:38:06	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "10/22/20"
+??FILENAME			  Text	 "l2e4	  "
+??TIME				  Text	 "17:38:06"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 L2E4
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+ADR1				  Word	 DGROUP:0000
+ADR2				  Word	 DGROUP:0002
+ADR3				  Word	 DGROUP:0004
+ADR4				  Word	 DGROUP:0006
+START				  Near	 _TEXT:0000
+TABELA				  Dword	 DGROUP:0008
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  0018 Word	  Public  DATA
+_TEXT				  16  0019 Word	  Public  CODE
+

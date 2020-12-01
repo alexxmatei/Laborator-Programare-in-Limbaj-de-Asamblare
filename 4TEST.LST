@@ -1,0 +1,75 @@
+Turbo Assembler	 Version 3.0	    11/26/20 06:46:41	    Page 1
+4test.ASM
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100
+      3	0000			     .data
+      4	0000  64 6B 73 61 6C 64	73+	     db	'dksaldsmkdsamdkasmnkfnkasnfasfasfas'
+      5	      6D 6B 64 73 61 6D	64+
+      6	      6B 61 73 6D 6E 6B	66+
+      7	      6E 6B 61 73 6E 66	61+
+      8	      73 66 61 73 66 61	73
+      9	0000			     code segment page
+     10				     assume cs:code
+     11	0000				     program:
+     12					     ; muta adresa segmentului de date in DS
+     13	0000				     initializare:
+     14	0000  B8 0000s				     mov ax, @data
+     15	0003  8E D8				     mov ds, ax
+     16	0005				     start:
+     17	0005  B4 36				     mov ah, 36h
+     18	0007  B2 03				     mov dl, 3h
+     19	0009  CD 21				     int 21h
+     20						     ;mov ah, 8
+     21						     ;int 21h
+     22					     ; iesire din program
+     23	000B				     sfarsit:
+     24	000B  B4 4C				     mov ah, 4Ch     ; functia DOS de iesire din program
+     25	000D  CD 21				     int 21h
+     26				     end program
+*Warning* 4test.ASM(22)	Open segment: _DATA
+Turbo Assembler	 Version 3.0	    11/26/20 06:46:41	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "11/26/20"
+??FILENAME			  Text	 "4test	  "
+??TIME				  Text	 "06:46:41"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 CODE
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 4TEST
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+INITIALIZARE			  Near	 CODE:0000
+PROGRAM				  Near	 CODE:0000
+SFARSIT				  Near	 CODE:000B
+START				  Near	 CODE:0005
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+CODE				  16  000F Page	  none
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  0023 Word	  Public  DATA
+_TEXT				  16  0000 Word	  Public  CODE
+Turbo Assembler	 Version 3.0	    11/26/20 06:46:41	    Page 3
+Error Summary
+
+
+
+*Warning* 4test.ASM(22)	Open segment: _DATA
+

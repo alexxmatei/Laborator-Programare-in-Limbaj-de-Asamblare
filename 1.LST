@@ -1,0 +1,91 @@
+Turbo Assembler	 Version 3.0	    11/08/20 18:11:03	    Page 1
+1.ASM
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100h
+      3	0000			     .data
+      4	0000  0008		     numar dw 8
+      5	0002  ????????		     rezultat dd ?
+      6	0006			     .code
+      7	0000			     afisare proc
+      8	0000  80 C2 30			     add dl,'0'
+      9	0003  B4 02			     mov ah,2h
+     10	0005  CD 21			     int 21h
+     11	0007  C3			     ret
+     12	0008			     afisare endp
+     13
+     14	0008			     start:
+     15	0008  B8 0000s			     mov ax,@data
+     16	000B  8E D8			     mov ds,ax
+     17	000D  B8 0001			     mov ax,1
+     18	0010  BB 0001			     mov bx,1
+     19	0013  8B 0E 0000r		     mov cx,numar
+     20	0017			     iarasi:
+     21	0017  43			     inc bx
+     22	0018  3B D9			     cmp bx,cx
+     23	001A  77 04			     ja	sfarsit
+     24	001C  F7 E3			     mul bx
+     25	001E  EB F7			     jmp iarasi
+     26	0020			     sfarsit:
+     27	0020  BB 000A			     mov bx,10
+     28	0023  BE 0000			     mov si,0
+     29	0026  BA 0000			     mov dx, 0
+     30	0029			     conversie:
+     31	0029  F7 F3			     div bx
+     32	002B  88 94 0002r		     mov byte ptr rezultat[si],dl
+     33	002F  BA 0000			     mov dx,0
+     34	0032  46			     inc si
+     35	0033  3B C3			     cmp ax,bx
+     36	0035  77 F2			     ja	conversie
+     37	0037  88 84 0002r		     mov byte ptr rezultat[si],al
+     38	003B			     repet:
+     39	003B  8A 94 0002r		     mov dl,byte ptr rezultat[si]
+     40	003F  E8 FFBE			     call afisare
+     41	0042  4E			     dec si
+     42	0043  83 FE 00			     cmp si,0
+     43	0046  79 F3			     jns repet
+     44	0048  B4 4C			     mov ah,4ch
+     45	004A  CD 21			     int 21h
+     46					     end start
+Turbo Assembler	 Version 3.0	    11/08/20 18:11:03	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "11/08/20"
+??FILENAME			  Text	 "1	  "
+??TIME				  Text	 "18:11:03"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 1
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+AFISARE				  Near	 _TEXT:0000
+CONVERSIE			  Near	 _TEXT:0029
+IARASI				  Near	 _TEXT:0017
+NUMAR				  Word	 DGROUP:0000
+REPET				  Near	 _TEXT:003B
+REZULTAT			  Dword	 DGROUP:0002
+SFARSIT				  Near	 _TEXT:0020
+START				  Near	 _TEXT:0008
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0100 Para	  Stack	  STACK
+  _DATA				  16  0006 Word	  Public  DATA
+_TEXT				  16  004C Word	  Public  CODE
+

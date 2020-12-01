@@ -1,0 +1,70 @@
+Turbo Assembler	 Version 3.0	    10/22/20 17:37:23	    Page 1
+l2e6.asm
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100
+      3	0000			     .data
+      4
+      5	0000			     .code
+      6					     ; Muta adresa segmentului de date in DS
+      7	0000				     start:
+      8	0000  B8 0000s				     mov ax, @data
+      9	0003  8E D8				     mov ds, ax
+     10	0005  8B C6				     mov al, si
+**Error** l2e6.asm(10) Operand types do	not match
+     11	0007  8C				     mov ds, es
+**Error** l2e6.asm(11) Illegal use of segment register
+     12	0008  A1 0000				     mov ax, ip
+**Error** l2e6.asm(12) Undefined symbol: IP
+     13	000B  8A D8				     mov bl, al
+     14	000D  B8 0023				     mov cs, 23H
+**Error** l2e6.asm(14) Illegal use of segment register
+     15	0010				     sfarsit:
+     16	0010  B8 004C				     mov ax, 4Ch    ; Functia DOS de iesire in sistemul	de operare
+     17	0013  CD 21				     int 21h
+     18					     end start
+Turbo Assembler	 Version 3.0	    10/22/20 17:37:23	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "10/22/20"
+??FILENAME			  Text	 "l2e6	  "
+??TIME				  Text	 "17:37:23"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 L2E6
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+SFARSIT				  Near	 _TEXT:0010
+START				  Near	 _TEXT:0000
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  0000 Word	  Public  DATA
+_TEXT				  16  0015 Word	  Public  CODE
+Turbo Assembler	 Version 3.0	    10/22/20 17:37:23	    Page 3
+Error Summary
+
+
+
+**Error** l2e6.asm(10) Operand types do	not match
+**Error** l2e6.asm(11) Illegal use of segment register
+**Error** l2e6.asm(12) Undefined symbol: IP
+**Error** l2e6.asm(14) Illegal use of segment register
+

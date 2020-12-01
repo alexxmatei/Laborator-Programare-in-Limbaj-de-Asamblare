@@ -1,0 +1,156 @@
+Turbo Assembler	 Version 3.0	    11/05/20 19:05:39	    Page 1
+l4a1.ASM
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 512
+      3	0000			     .data
+      4	0000  0000r			     tab_proc  dw proc_1
+      5	0002  0003r				       dw proc_2
+      6	0004  0006r					       dw proc_3
+      7	0006  00000009sr		     tab_procf dd procf_1
+      8	000A  0000000Csr			       dd procf_2
+      9	000E  0000000Fsr				       dd procf_3
+     10	0012  0054r			     intra     dw etich1
+     11	0014  005Dr				       dw etich2
+     12	0016  005Br					       dw etich3
+     13	0018  00000063sr		     inter     dd etif1
+     14	001C  0000001Esr				       dd etif2
+     15	0020			     .code
+     16	0000				     proc_1 proc
+     17	0000  52				     push dx
+     18	0001  5A				     pop dx
+     19	0002  C3				     ret
+     20	0003				     proc_1 endp
+     21
+     22	0003				     proc_2 proc
+     23	0003  52				     push dx
+     24	0004  5A				     pop dx
+     25	0005  C3				     ret
+     26	0006				     proc_2 endp
+     27
+     28	0006				     proc_3 proc
+     29	0006  52				     push dx
+     30	0007  5A				     pop dx
+     31	0008  C3				     ret
+     32	0009				     proc_3 endp
+     33
+     34	0009				     procf_1 proc far
+     35	0009  52				     push dx
+     36	000A  5A				     pop dx
+     37	000B  CB				     ret
+     38	000C				     procf_1 endp
+     39
+     40	000C				     procf_2 proc far
+     41	000C  52				     push dx
+     42	000D  5A				     pop dx
+     43	000E  CB				     ret
+     44	000F				     procf_2 endp
+     45
+     46	000F				     procf_3 proc far
+     47	000F  52				     push dx
+     48	0010  5A				     pop dx
+     49	0011  CB				     ret
+     50	0012				     procf_3 endp
+     51
+     52					     ; muta adresa segmentului de date in DS
+     53	0012				     initializare:
+     54	0012  B8 0000s				     mov ax, @data
+     55	0015  8E D8				     mov ds, ax
+     56	0017				     start:
+     57	0017  BE 0000				     mov si, 0
+Turbo Assembler	 Version 3.0	    11/05/20 19:05:39	    Page 2
+l4a1.ASM
+
+
+
+     58	001A  FF AC 0018r			     jmp inter[si]
+     59	001E				     etif2 label far
+     60	001E  FF 26 0012r			     jmp intra
+     61	0022				     proced:
+     62	0022  BB 0000r				     lea bx, proc_1
+     63	0025  FF D3				     call bx
+     64	0027  FF 16 0000r			     call tab_proc
+     65	002B  BE 0002				     mov si, 2
+     66	002E  FF 94 0000r			     call tab_proc[si]
+     67	0032  BB 0000r				     lea bx, tab_proc
+     68	0035  FF 17				     call word ptr [bx]
+     69	0037  BE 0004				     mov si, 4
+     70	003A  FF 10				     call word ptr [bx][si]
+     71	003C  FF 1E 0006r			     call tab_procf
+     72	0040  BE 0004				     mov si, 4
+     73	0043  FF 9C 0006r			     call tab_procf[si]
+     74	0047  BB 0006r				     lea bx, tab_procf
+     75	004A  FF 1F				     call dword	ptr [bx]
+     76	004C  BE 0004				     mov si, 4
+     77	004F  FF 18				     call dword	ptr [bx][si]
+     78	0051  EB 18 90				     jmp sfarsit
+     79	0054				     etich1:
+     80	0054  BE 0002				     mov si, 2
+     81	0057  FF A4 0012r			     jmp intra[si]
+     82	005B				     etich3 label near
+     83	005B  EB C5				     jmp proced
+     84	005D				     etich2 label near
+     85	005D  BB 0012r				     lea bx, intra
+     86	0060  FF 67 04				     jmp word ptr [bx +	4]
+     87	0063				     etif1 label far
+     88	0063  BB 0018r				     lea bx, inter
+     89	0066  BE 0004				     mov si, 4
+     90	0069  FF 28				     jmp dword ptr [bx][si]
+     91					     ; iesire din program
+     92	006B				     sfarsit:
+     93	006B  B4 4C				     mov ah, 4ch     ; functia DOS de iesire in	sistemul de operare
+     94	006D  CD 21				     int 21h
+     95				     end initializare
+Turbo Assembler	 Version 3.0	    11/05/20 19:05:39	    Page 3
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "11/05/20"
+??FILENAME			  Text	 "l4a1	  "
+??TIME				  Text	 "19:05:39"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 L4A1
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+ETICH1				  Near	 _TEXT:0054
+ETICH2				  Near	 _TEXT:005D
+ETICH3				  Near	 _TEXT:005B
+ETIF1				  Far	 _TEXT:0063
+ETIF2				  Far	 _TEXT:001E
+INITIALIZARE			  Near	 _TEXT:0012
+INTER				  Dword	 DGROUP:0018
+INTRA				  Word	 DGROUP:0012
+PROCED				  Near	 _TEXT:0022
+PROCF_1				  Far	 _TEXT:0009
+PROCF_2				  Far	 _TEXT:000C
+PROCF_3				  Far	 _TEXT:000F
+PROC_1				  Near	 _TEXT:0000
+PROC_2				  Near	 _TEXT:0003
+PROC_3				  Near	 _TEXT:0006
+SFARSIT				  Near	 _TEXT:006B
+START				  Near	 _TEXT:0017
+TAB_PROC			  Word	 DGROUP:0000
+TAB_PROCF			  Dword	 DGROUP:0006
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0200 Para	  Stack	  STACK
+  _DATA				  16  0020 Word	  Public  DATA
+_TEXT				  16  006F Word	  Public  CODE
+

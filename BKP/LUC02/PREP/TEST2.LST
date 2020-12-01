@@ -1,0 +1,66 @@
+Turbo Assembler	 Version 3.0	    10/22/20 21:25:54	    Page 1
+test2.ASM
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100
+      3	0000			     .data
+      4
+      5	0000			     .code
+      6	0000				     start:
+      7						     ; Mutare a	adresei	segmentului de date in ds
+      8	0000  B8 0000s				     mov ax, @data
+      9	0003  8E D8				     mov ds, ax
+     10						     ;
+     11	0005  B8 1234				     mov ax, 1234h
+     12	0008  50				     push ax
+     13	0009  BB 5678				     mov bx, 5678h
+     14	000C  53				     push bx
+     15	000D  8B EC				     mov bp, sp
+     16	000F  B9 90AB				     mov cx, 90ABh
+     17	0012  51				     push cx
+     18	0013  C6 46 00 11			     mov byte ptr [bp],	11h
+     19	0017  C7 46 02 2233			     mov word ptr [bp +	2], 2233h
+     20	001C  C7 46 FF 4455			     mov word ptr [bp -	1], 4455h
+     21	0021  59				     pop cx
+     22	0022  5B				     pop bx
+     23	0023  58				     pop ax
+     24						     ; Sfarsit program
+     25	0024  B8 4C00				     mov ax, 4C00h
+     26	0027  CD 21				     int 21h
+     27						     ;
+     28					     end start
+Turbo Assembler	 Version 3.0	    10/22/20 21:25:54	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "10/22/20"
+??FILENAME			  Text	 "test2	  "
+??TIME				  Text	 "21:25:54"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 TEST2
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+START				  Near	 _TEXT:0000
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  0000 Word	  Public  DATA
+_TEXT				  16  0029 Word	  Public  CODE
+

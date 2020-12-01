@@ -1,0 +1,66 @@
+Turbo Assembler	 Version 3.0	    11/26/20 17:21:37	    Page 1
+l5a1.ASM
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100
+      3	0000			     .data
+      4	0000  73 69 72 73 69 72		     sursa db 'sirsir'
+      5	0006  06*(??)			     dest  db 6	dup (?)
+      6	000C			     .code
+      7	0000				     program:
+      8					     ; muta adresa segmentului de date in DS
+      9	0000				     initializare:
+     10	0000  B8 0000s				     mov ax, @data
+     11	0003  8E D8				     mov ds, ax
+     12	0005  8E C0				     mov es, ax
+     13	0007  FC				     cld
+     14	0008  BE 0000r				     lea si, sursa
+     15	000B  BF 0006r				     lea di, dest
+     16	000E  B9 0006				     mov cx, 6
+     17	0011				     start:
+     18	0011  F3> A4				     rep movsb
+     19					     ; iesire din program
+     20	0013				     sfarsit:
+     21	0013  B4 4C				     mov ah, 4Ch     ; functia DOS de iesire din program
+     22	0015  CD 21				     int 21h
+     23				     end program
+Turbo Assembler	 Version 3.0	    11/26/20 17:21:37	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "11/26/20"
+??FILENAME			  Text	 "l5a1	  "
+??TIME				  Text	 "17:21:37"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 L5A1
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+DEST				  Byte	 DGROUP:0006
+INITIALIZARE			  Near	 _TEXT:0000
+PROGRAM				  Near	 _TEXT:0000
+SFARSIT				  Near	 _TEXT:0013
+START				  Near	 _TEXT:0011
+SURSA				  Byte	 DGROUP:0000
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  000C Word	  Public  DATA
+_TEXT				  16  0017 Word	  Public  CODE
+

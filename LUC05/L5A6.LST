@@ -1,0 +1,60 @@
+Turbo Assembler	 Version 3.0	    11/12/20 11:44:54	    Page 1
+l5a6.ASM
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100
+      3	0000			     .data
+      4
+      5	0000			     .code
+      6	0000				     program:
+      7					     ; muta adresa segmentului de date in DS
+      8	0000				     initializare:
+      9	0000  B8 0000s				     mov ax, @data
+     10	0003  8E D8				     mov ds, ax
+     11	0005				     start:
+     12	0005  B0 44				     mov al, 'D'
+     13	0007  B9 000C				     mov cx, 12
+     14	000A  F3> AA				     rep stosb
+     15					     ; iesire din program
+     16	000C				     sfarsit:
+     17	000C  B4 4C				     mov ah, 4Ch     ; functia DOS de iesire din program
+     18	000E  CD 21				     int 21h
+     19				     end program
+Turbo Assembler	 Version 3.0	    11/12/20 11:44:54	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "11/12/20"
+??FILENAME			  Text	 "l5a6	  "
+??TIME				  Text	 "11:44:54"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 L5A6
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+INITIALIZARE			  Near	 _TEXT:0000
+PROGRAM				  Near	 _TEXT:0000
+SFARSIT				  Near	 _TEXT:000C
+START				  Near	 _TEXT:0005
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  0000 Word	  Public  DATA
+_TEXT				  16  0010 Word	  Public  CODE
+

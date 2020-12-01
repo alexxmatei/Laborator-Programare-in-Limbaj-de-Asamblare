@@ -1,0 +1,73 @@
+Turbo Assembler	 Version 3.0	    10/22/20 13:37:23	    Page 1
+l2e3.asm
+
+
+
+      1	0000			     .model small
+      2	0000			     .data
+      3	0000  32 32 35			     tabc db '225'
+      4	0003			     .code
+      5					     ; muta adresa de segment a	datelor	data de	directiva @data	in registrul DS
+      6	0000				     initializare:
+      7	0000  B8 0000s				     mov ax, @data
+      8	0003  8E D8				     mov ds, ax
+      9	0005  B0 00				     mov al, 0		 ; initializeaza AL
+     10	0007				     start:
+     11	0007				     repet:
+     12	0007  BB 0000r				     mov bx, offset tabc     ; pune in BX adresa efectiva tabc
+     13	000A  50				     push ax		 ; salveaza AL in stiva
+     14	000B  D7				     xlat		 ; pune	in AL octetul de la adresa efectiva [BX	+ AL]
+     15	000C  E8 0009				     call afisare	 ; apelul procedurii afisare
+     16	000F  58				     pop ax
+     17	0010  FE C0				     inc al
+     18	0012  3C 03				     cmp al, 03h	 ; se verifica daca s-au afisat	toate caracterele
+     19	0014  74 09				     jz	sfarsit
+     20	0016  EB EF				     jmp repet
+     21	0018				     afisare proc
+     22	0018  8A D0				     mov dl, al		 ; pune	in DL codul caracterului care trebuie afisat
+     23	001A  B4 02				     mov ah, 2h		 ; functa DOS pentru afisarea caracterului din DL
+     24	001C  CD 21				     int 21h
+     25	001E  C3				     ret
+     26	001F				     afisare endp
+     27					     ; revenire	in sistemul de operare
+     28	001F				     sfarsit:
+     29	001F  B4 4C				     mov ah, 4ch     ; functia DOS de iesire in	sistemul de operare
+     30	0021  CD 21				     int 21h
+     31				     end
+Turbo Assembler	 Version 3.0	    10/22/20 13:37:23	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "10/22/20"
+??FILENAME			  Text	 "l2e3	  "
+??TIME				  Text	 "13:37:23"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 L2E3
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+AFISARE				  Near	 _TEXT:0018
+INITIALIZARE			  Near	 _TEXT:0000
+REPET				  Near	 _TEXT:0007
+SFARSIT				  Near	 _TEXT:001F
+START				  Near	 _TEXT:0007
+TABC				  Byte	 DGROUP:0000
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  _DATA				  16  0003 Word	  Public  DATA
+_TEXT				  16  0023 Word	  Public  CODE
+

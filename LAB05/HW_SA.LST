@@ -1,0 +1,53 @@
+Turbo Assembler	 Version 3.0	    11/01/20 14:07:33	    Page 1
+HW_Sa.ASM
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100
+      3	0000			     .data
+      4
+      5	0000			     .code
+      6	0000			     start:
+      7	0000  B8 0000s		      mov ax, @data
+      8	0003  8E D8		      mov ds, ax
+      9
+     10	0005  B4 01			     mov ah, 01H
+     11	0007  CD 21			     int 21H
+     12	0009  B4 02			     mov ah, 02H
+     13	000B  8A D0			     mov dl,al
+     14	000D  CD 21			     int 21h
+     15				     end start
+Turbo Assembler	 Version 3.0	    11/01/20 14:07:33	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "11/01/20"
+??FILENAME			  Text	 "HW_Sa	  "
+??TIME				  Text	 "14:07:33"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 HW_SA
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+START				  Near	 _TEXT:0000
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  0000 Word	  Public  DATA
+_TEXT				  16  000F Word	  Public  CODE
+

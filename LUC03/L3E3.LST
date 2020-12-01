@@ -1,0 +1,219 @@
+Turbo Assembler	 Version 3.0	    10/29/20 18:39:27	    Page 1
+L3E3.ASM
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100
+      3	0000			     .data
+      4
+      5	0000			     .code
+      6					     ; muta adresa segmentului de date in DS
+      7	0000				     initializare:
+      8	0000  B8 0000s				     MOV ax, @data
+      9	0003  8E D8				     MOV ds, ax
+     10	0005				     start:
+     11	0005				     instructiunea_NOT:
+     12						     ; NOT - Negare logica
+     13						     ; NOT dest
+     14	0005  B8 AAFF				     MOV ax, 1010101011111111b
+     15	0008  F7 D0				     NOT ax
+     16	000A				     instructiunea_AND:
+     17						     ; AND - SI	logic
+     18						     ; AND dest, sursa
+     19	000A  B8 AA55				     MOV ax, 1010101001010101b
+     20	000D  BB F0F0				     MOV bx, 1111000011110000b
+     21	0010  23 C3				     AND ax, bx
+     22	0012				     instructiunea_TEST:
+     23						     ; TEST
+     24						     ; TEST dest, sursa
+     25						     ; Executa (dest AND sursa)	fara a modifica	operanzii
+     26						     ; insa se modifica	bistabilii de conditie (FLAGS)
+     27	0012  B8 AA55				     MOV ax, 1010101001010101b
+     28	0015  BB F0F0				     MOV bx, 1111000011110000b
+     29	0018  BA 0000				     MOV dx, 0h
+     30	001B  52				     PUSH dx
+     31	001C  9D				     POPF
+     32	001D  85 C3				     TEST ax, bx
+     33	001F				     instructiunea_OR:
+     34						     ; OR - SAU	logic
+     35						     ; OR dest,	sursa
+     36	001F  B8 AA55				     MOV ax, 1010101001010101b
+     37	0022  BB F0F0				     MOV bx, 1111000011110000b
+     38	0025  0B C3				     OR	 ax, bx
+     39	0027				     instructiunea_XOR:
+     40						     ; XOR - SAU Exclusiv logic
+     41						     ; XOR dest, sursa
+     42	0027  B8 AA55				     MOV ax, 1010101001010101b
+     43	002A  BB F0F0				     MOV bx, 1111000011110000b
+     44	002D  33 C3				     XOR  ax, bx
+     45	002F				     instructiunile_de_shiftare_si_rotire:
+     46						     ; Aceste instructiuni utilizeaza un contor	pentru
+     47						     ; a indica	de cate	ori sa se repete operatia
+     48						     ; (de shiftare sau	rotire)
+     49
+     50						     ; Toate au	urmatoarea forma:
+     51						     ; OP operand, contor
+     52						     ; Unde OP - operatia (de shiftare sau rotire)
+     53	002F				     instructiunea_SHL:
+     54						     ; SHL - Shift Logic Left -	Shiftare logica	la stanga
+     55	002F				     instructiunea_SAL:
+     56						     ; SAL - Shift Aritmetic Left -
+     57						     ;	     Shiftare aritmetica la stanga
+Turbo Assembler	 Version 3.0	    10/29/20 18:39:27	    Page 2
+L3E3.ASM
+
+
+
+     58						     ; Bitul cel mai semnificativ trece	in CF, dupa care
+     59						     ; toti bitii se deplaseaza	la stanga cu o pozitie.
+     60						     ; Bitul cel mai putin semnificativ	devine 0.
+     61	002F  B0 FF				     MOV al, 11111111b
+     62	0031  D0 E0 D0 E0			     SHL al, 2
+     63	0035  D0 E0 D0 E0			     SAL al, 2
+     64	0039  B0 01				     MOV al, 00000001b
+     65	003B					     bucla_shiftare_stanga:
+     66	003B  D0 E0					     SHL al, 1
+     67	003D  3C 80					     cmp al, 80h
+     68	003F  75 FA				     jnz bucla_shiftare_stanga
+     69	0041				     instructiunea_SHR:
+     70						     ; SHR - Shift Logic Right - Shiftare logica la dreapta
+     71						     ; Bitul cel mai putin semnificativ	trece in CF,
+     72						     ; toti bitii se deplaseaza	la dreapta cu o	pozitie
+     73						     ; bitul cel mai semnificativ devine 0.
+     74	0041  B0 FF				     MOV al, 11111111b
+     75	0043  D0 E8 D0 E8 D0 E8	D0+		     SHR al, 4
+     76	      E8
+     77	004B  B0 80				     MOV al, 10000000b
+     78	004D					     bucla_shiftare_logica_dreapta:
+     79	004D  D0 E8					     SHR al, 1
+     80	004F  3C 01					     cmp al, 01h
+     81	0051  75 FA				     jnz bucla_shiftare_logica_dreapta
+     82	0053				     instructiunea_SAR:
+     83						     ; SAR - Shift Aritmetic Right - Shiftare aritmetica
+     84					     ;				     la	dreapta
+     85						     ; Singura diferenta fata de SHR este ca
+     86						     ; bitul de	semn ramane neschimbat
+     87	0053  B0 80				     MOV al, 10000000b
+     88	0055					     bucla1_shiftare_aritmetica_dreapta:
+     89	0055  D0 F8					     SAR al, 1
+     90	0057  3C FF					     cmp al, 0FFh
+     91	0059  75 FA				     jnz bucla1_shiftare_aritmetica_dreapta
+     92	005B  B0 40				     MOV al, 01000000b
+     93	005D					     bucla2_shiftare_aritmetica_dreapta:
+     94	005D  D0 F8					     SAR al, 1
+     95	005F  3C 01					     cmp al, 01h
+     96	0061  75 FA				     jnz bucla2_shiftare_aritmetica_dreapta
+     97	0063				     instructiunea_ROL:
+     98						     ; ROL - Rotate Left - Rotire la Stanga
+     99						     ; Se deplaseaza toti bitii	la stanga cu o pozitie.
+    100						     ; Bitul cel mai semnificativ trece	atat in	CF,
+    101						     ; cat si in bitul cel mai putin semnificativ
+    102	0063  B0 01				     MOV al, 01h
+    103	0065					     bucla_rotire_stanga:
+    104	0065  D0 C0					     ROL al, 1
+    105	0067  3C 01					     cmp al, 01h
+    106	0069  75 FA				     jnz bucla_rotire_stanga
+    107	006B				     instructiunea_RCL:
+    108						     ; RCL - Rotate Left through Carry -
+    109						     ;	     Rotire la Stanga prin bitul de Carry
+    110						     ; Se deplaseaza toti bitii	la stanga cu o pozitie.
+    111						     ; CF trece	in bitul cel mai putin semnificativ,
+    112						     ; bitul cel mai semnificativ trece	in CF
+    113	006B  B0 01				     MOV al, 01h
+    114	006D					     bucla_rotire_stanga_prin_CF:
+Turbo Assembler	 Version 3.0	    10/29/20 18:39:27	    Page 3
+L3E3.ASM
+
+
+
+    115	006D  D0 D0					     RCL al, 1
+    116	006F  3C 01					     cmp al, 01h
+    117	0071  75 FA				     jnz bucla_rotire_stanga_prin_CF
+    118	0073				     instructiunea_ROR:
+    119						     ; ROL - Rotate Right - Rotire la Dreapta
+    120						     ; Se deplaseaza toti bitii	la dreapta cu o	pozitie.
+    121						     ; Bitul cel mai semnificativ trece	atat in	CF,
+    122						     ; cat si in bitul cel mai putin semnificativ
+    123	0073  B0 80				     MOV al, 80h
+    124	0075					     bucla_rotire_dreapta:
+    125	0075  D0 C8					     ROR al, 1
+    126	0077  3C 80					     cmp al, 80h
+    127	0079  75 FA				     jnz bucla_rotire_dreapta
+    128	007B				     instructiunea_RCR:
+    129	007B  B0 80				     MOV al, 80h
+    130	007D					     bucla_rotire_dreapta_prin_CF:
+    131	007D  D0 D8 D0 D8 D0 D8				     RCR al, 3
+    132	0083  A8 80					     test al, 80h
+    133	0085  74 F6				     jz	bucla_rotire_dreapta_prin_CF
+    134						     ; RCL - Rotate Right through Carry	-
+    135						     ;	     Rotire la Dreapta prin bitul de Carry
+    136						     ; Se deplaseaza toti bitii	la dreapta cu o	pozitie.
+    137						     ; CF trece	in bitul cel mai semnificativ,
+    138						     ; bitul cel mai putin semnificativ	trece in CF
+    139					     ; iesire din program
+    140	0087				     sfarsit:
+    141	0087  B4 4C				     MOV ah, 4ch     ; functia DOS de iesire
+    142								     ; in sistemul de operare
+    143	0089  CD 21				     INT 21h
+    144				     end
+Turbo Assembler	 Version 3.0	    10/29/20 18:39:27	    Page 4
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "10/29/20"
+??FILENAME			  Text	 "L3E3	  "
+??TIME				  Text	 "18:39:27"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 L3E3
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+BUCLA1_SHIFTARE_ARITMETICA_DREAP  Near	 _TEXT:0055
+TA
+BUCLA2_SHIFTARE_ARITMETICA_DREAP  Near	 _TEXT:005D
+TA
+BUCLA_ROTIRE_DREAPTA		  Near	 _TEXT:0075
+BUCLA_ROTIRE_DREAPTA_PRIN_CF	  Near	 _TEXT:007D
+BUCLA_ROTIRE_STANGA		  Near	 _TEXT:0065
+BUCLA_ROTIRE_STANGA_PRIN_CF	  Near	 _TEXT:006D
+BUCLA_SHIFTARE_LOGICA_DREAPTA	  Near	 _TEXT:004D
+BUCLA_SHIFTARE_STANGA		  Near	 _TEXT:003B
+INITIALIZARE			  Near	 _TEXT:0000
+INSTRUCTIUNEA_AND		  Near	 _TEXT:000A
+INSTRUCTIUNEA_NOT		  Near	 _TEXT:0005
+INSTRUCTIUNEA_OR		  Near	 _TEXT:001F
+INSTRUCTIUNEA_RCL		  Near	 _TEXT:006B
+INSTRUCTIUNEA_RCR		  Near	 _TEXT:007B
+INSTRUCTIUNEA_ROL		  Near	 _TEXT:0063
+INSTRUCTIUNEA_ROR		  Near	 _TEXT:0073
+INSTRUCTIUNEA_SAL		  Near	 _TEXT:002F
+INSTRUCTIUNEA_SAR		  Near	 _TEXT:0053
+INSTRUCTIUNEA_SHL		  Near	 _TEXT:002F
+INSTRUCTIUNEA_SHR		  Near	 _TEXT:0041
+INSTRUCTIUNEA_TEST		  Near	 _TEXT:0012
+INSTRUCTIUNEA_XOR		  Near	 _TEXT:0027
+INSTRUCTIUNILE_DE_SHIFTARE_SI_RO  Near	 _TEXT:002F
+TIRE
+SFARSIT				  Near	 _TEXT:0087
+START				  Near	 _TEXT:0005
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  0000 Word	  Public  DATA
+_TEXT				  16  008B Word	  Public  CODE
+
