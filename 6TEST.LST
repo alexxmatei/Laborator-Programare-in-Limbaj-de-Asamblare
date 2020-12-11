@@ -1,0 +1,55 @@
+Turbo Assembler	 Version 3.0	    12/07/20 20:18:32	    Page 1
+6test.ASM
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100
+      3	0000			     .data
+      4	0000  44444444			     demp dd 44444444h
+      5	0004  1111			     imp dw 1111h
+      6	0006  ????????			     cat dd ?
+      7	000A  ????			     rest dw ?
+      8	000C			     .code
+      9	0000			     start:
+     10	0000  B8 0000s			     mov ax, @data
+     11	0003  8E D8			     mov ds, ax
+     12	0005  F4			     Hlt
+     13				     end start
+Turbo Assembler	 Version 3.0	    12/07/20 20:18:32	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "12/07/20"
+??FILENAME			  Text	 "6test	  "
+??TIME				  Text	 "20:18:32"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 6TEST
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+CAT				  Dword	 DGROUP:0006
+DEMP				  Dword	 DGROUP:0000
+IMP				  Word	 DGROUP:0004
+REST				  Word	 DGROUP:000A
+START				  Near	 _TEXT:0000
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  000C Word	  Public  DATA
+_TEXT				  16  0006 Word	  Public  CODE
+

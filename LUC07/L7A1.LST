@@ -1,0 +1,128 @@
+Turbo Assembler	 Version 3.0	    12/10/20 18:12:10	    Page 1
+l7a1.ASM
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100
+      3	0000			     .data
+      4	0000  44444444			     demp dd 44444444h
+      5	0004  1111			     imp dw 1111h
+      6	0006  ????????			     cat dd ?
+      7	000A  ????			     rest dw ?
+      8	000C			     .code
+      9				     ;proc. primeste deimpartitul in (DX, AX)
+     10				     ;si impartitorul in BX
+     11				     ;returneaza catul in (BX, AX) si restul in	DX
+     12	0000			     divc proc
+     13	0000  83 FB 00			     cmp bx, 0	    ;daca eroare adevarata
+     14	0003  75 02			     jnz divc1
+     15	0005  CD 00			     int 0
+     16	0007			       divc1:
+     17	0007  06			     push es	    ;salvare registre modificate de procedura
+     18	0008  57			     push di
+     19	0009  51			     push cx
+     20	000A  58			     pop ax
+     21	000B  5B			     pop bx
+     22	000C  59			     pop cx
+     23	000D  BF 0000			     mov di, 0
+     24	0010  8E C7			     mov es, di	    ;adresa pt.	intrarea intrerupere nivel 0
+     25	0012  26: FF 35			     push es:[di]   ;salvare adresa oficiala
+     26	0015  26: FF 75	02		     push es:[di+2]
+     27	0019  26: C7 05	0031r		     mov word ptr es:[di], offset trat_0  ;incarcare vector
+     28	001E  26: 8C 4D	02		     mov es:[di+2],cs ;intrerupere pt. noua rutina de tratare
+     29	0022  F7 F3			     div bx	    ;incercare executie	instr. de impartire
+     30							    ;nu	a aparut eroare
+     31	0024  2B DB			     sub bx, bx	    ;daca impartirea s-a executat corect se
+     32							    ;pune 0 in bx ca sa	corespunda modului de
+     33							    ;transmitere al parametrilor
+     34	0026			       revenire:
+     35	0026  26: 8F 45	02		     pop es:[di+2]
+     36	002A  26: 8F 05			     pop es:[di]
+     37	002D  59			     pop cx
+     38	002E  5F			     pop di
+     39	002F  07			     pop es
+     40	0030  C3			     ret
+     41	0031				     trat_0 proc far
+     42	0031  55				     push bp	;salvare bp
+     43						     ;int 3
+     44	0032  8B EC				     mov bp, sp	;schimba adresa	de revenire din	rutina
+     45								;trat_0, adresa	care se	gaseste	in stiva
+     46								;a fost	pusa in	stiva la apelarea rutinei
+     47								;de intrerupere	(IP-ul)
+     48	0034  C7 46 02 0026r			     mov word ptr [bp+2], offset revenire
+     49	0039  50				     push ax	;salvare ax, Y0
+     50	003A  8B C2				     mov ax, dx	;primul	deimpartit Y1
+     51	003C  2B D2				     sub dx, dx	;executie impartire Y1 la X
+     52								;rezulta (AX) =	Q1, (DX) = R1
+     53	003E  F7 F3				     div bx
+     54	0040  59				     pop cx	;Y0
+     55	0041  50				     push ax	;salvare Q1
+     56	0042  8B C1				     mov ax, cx	;executie impartire (R1, AX) la	X
+     57								;rezulta AX=Q0,	DX=R0
+Turbo Assembler	 Version 3.0	    12/10/20 18:12:10	    Page 2
+l7a1.ASM
+
+
+
+     58	0044  F7 F3				     div bx
+     59	0046  5B				     pop bx	;Q1
+     60	0047  5D				     pop bp
+     61	0048  CF				     iret
+     62	0049				     trat_0  endp
+     63	0049			     divc endp
+     64
+     65	0049			     start:
+     66	0049  B8 0000s			     mov ax, @data
+     67	004C  8E D8			     mov ds, ax
+     68	004E  A1 0000r			     mov ax, word ptr demp
+     69	0051  8B 16 0002r		     mov dx, word ptr demp+2
+     70	0055  8B 1E 0004r		     mov bx, imp
+     71	0059  E8 FFA4			     call divc
+     72	005C  A3 0006r			     mov word ptr cat, ax
+     73	005F  89 1E 0008r		     mov word ptr cat+2, bx
+     74	0063  89 16 000Ar		     mov rest, dx
+     75	0067  B4 4C			     mov ah, 4ch
+     76	0069  CD 21			     int 21h
+     77				     end start
+Turbo Assembler	 Version 3.0	    12/10/20 18:12:10	    Page 3
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "12/10/20"
+??FILENAME			  Text	 "l7a1	  "
+??TIME				  Text	 "18:12:10"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 L7A1
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+CAT				  Dword	 DGROUP:0006
+DEMP				  Dword	 DGROUP:0000
+DIVC				  Near	 _TEXT:0000
+DIVC1				  Near	 _TEXT:0007
+IMP				  Word	 DGROUP:0004
+REST				  Word	 DGROUP:000A
+REVENIRE			  Near	 _TEXT:0026
+START				  Near	 _TEXT:0049
+TRAT_0				  Far	 _TEXT:0031
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  000C Word	  Public  DATA
+_TEXT				  16  006B Word	  Public  CODE
+

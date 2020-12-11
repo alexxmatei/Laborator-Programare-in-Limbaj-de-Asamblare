@@ -23,14 +23,15 @@ ENDM
 		mov ds, ax
 	start:
 		mov ah, 0
-	mov al, d1.latime
-	mul d1.lungime
+		mov al, d1.latime
+		mul d1.lungime
 		mov ah, 0
-	mov al, d2.latime
-	mul d2.lungime
+		mov al, d2.latime
+		mul d2.lungime
+		int 3z
 		mov ah, 0
-	mov al, d3.latime
-	mul d3.lungime
+		mov al, d3.latime
+		mul d3.lungime
 	; iesire din program
 	sfarsit:
 		mov ah, 4Ch     ; functia DOS de iesire din program

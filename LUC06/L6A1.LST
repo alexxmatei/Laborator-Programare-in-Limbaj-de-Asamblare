@@ -1,4 +1,4 @@
-Turbo Assembler	 Version 3.0	    11/26/20 06:37:16	    Page 1
+Turbo Assembler	 Version 3.0	    12/03/20 15:34:26	    Page 1
 l6a1.ASM
 
 
@@ -16,19 +16,19 @@ l6a1.ASM
      11	0000				     program:
      12					     ; muta adresa segmentului de date in DS
      13	0000				     initializare:
-     14					     org 200h
-     15	0200  B8 0000s				     mov ax, @data
-     16	0203  8E D8				     mov ds, ax
-     17
-     18	0205				     start:
-     19	0205  A0 000Dr				     mov al, byte ptr tab[12].a2
-     20	0208  A0 000Cr				     mov al, byte ptr tab[11].a2
-     21					     ; iesire din program
-     22	020B				     sfarsit:
-     23	020B  B4 4C				     mov ah, 4Ch     ; functia DOS de iesire din program
-     24	020D  CD 21				     int 21h
-     25				     end program
-Turbo Assembler	 Version 3.0	    11/26/20 06:37:16	    Page 2
+     14	0000  B8 0000s				     mov ax, @data
+     15	0003  8E D8				     mov ds, ax
+     16	0005				     start:
+     17	0005  2E: C7 06	0014 00CC		     mov cs:[14h], 0CCh
+*Warning* l6a1.ASM(17) Argument	needs type override
+     18	000C  A0 000Dr				     mov al, byte ptr tab[12].a2
+     19	000F  A0 000Cr				     mov al, byte ptr tab[11].a2
+     20					     ; iesire din program
+     21	0012				     sfarsit:
+     22	0012  B4 4C				     mov ah, 4Ch     ; functia DOS de iesire din program
+     23	0014  CD 21				     int 21h
+     24				     end program
+Turbo Assembler	 Version 3.0	    12/03/20 15:34:26	    Page 2
 Symbol Table
 
 
@@ -36,9 +36,9 @@ Symbol Table
 
 Symbol Name			  Type	 Value
 
-??DATE				  Text	 "11/26/20"
+??DATE				  Text	 "12/03/20"
 ??FILENAME			  Text	 "l6a1	  "
-??TIME				  Text	 "06:37:16"
+??TIME				  Text	 "15:34:26"
 ??VERSION			  Number 0300
 @32BIT				  Text	 0
 @CODE				  Text	 _TEXT
@@ -54,8 +54,8 @@ Symbol Name			  Type	 Value
 @WORDSIZE			  Text	 2
 INITIALIZARE			  Near	 _TEXT:0000
 PROGRAM				  Near	 _TEXT:0000
-SFARSIT				  Near	 _TEXT:020B
-START				  Near	 _TEXT:0205
+SFARSIT				  Near	 _TEXT:0012
+START				  Near	 _TEXT:0005
 TAB				  Struct DGROUP:0000 ALFA
 
 Structure Name			  Type	Offset
@@ -70,5 +70,11 @@ Groups & Segments		  Bit Size Align  Combine Class
 DGROUP				  Group
   STACK				  16  0064 Para	  Stack	  STACK
   _DATA				  16  0028 Word	  Public  DATA
-_TEXT				  16  020F Word	  Public  CODE
+_TEXT				  16  0016 Word	  Public  CODE
+Turbo Assembler	 Version 3.0	    12/03/20 15:34:26	    Page 3
+Error Summary
+
+
+
+*Warning* l6a1.ASM(17) Argument	needs type override
 

@@ -1,0 +1,74 @@
+Turbo Assembler	 Version 3.0	    12/07/20 22:08:43	    Page 1
+l8e2.ASM
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100
+      3	0000			     .data
+      4	0000  00012345			     n1	 dd 12345h
+      5	0004  00054321			     n2	 dd 54321h
+      6	0008  ????????			     rez dd ?
+      7	000C			     .code
+      8	0000				     program:
+      9	0000				     aduna proc	near
+     10	0000  8B 04				     mov ax, [si]
+     11	0002  03 05				     add ax, [di]
+     12	0004  8B 54 02				     mov dx, [si + 2]
+     13	0007  13 55 02				     adc dx, [di + 2]
+     14	000A  C3				     ret
+     15	000B				     aduna endp
+     16	000B				     initializare:
+     17	000B  B8 0000s				     mov ax, @data
+     18	000E  8E D8				     mov ds, ax
+     19	0010				     start:
+     20	0010  BE 0000r				     lea si, n1
+     21	0013  BF 0004r				     lea di, n2
+     22	0016  E8 FFE7				     call near ptr aduna
+     23	0019  A3 0008r				     mov word ptr rez, ax
+     24	001C  89 16 000Ar			     mov word ptr rez +	2, dx
+     25					     ; iesire din program
+     26	0020				     sfarsit:
+     27	0020  B4 4C				     mov ah, 4Ch     ; functia DOS de iesire din program
+     28	0022  CD 21				     int 21h
+     29				     end initializare
+Turbo Assembler	 Version 3.0	    12/07/20 22:08:43	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "12/07/20"
+??FILENAME			  Text	 "l8e2	  "
+??TIME				  Text	 "22:08:43"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 L8E2
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+ADUNA				  Near	 _TEXT:0000
+INITIALIZARE			  Near	 _TEXT:000B
+N1				  Dword	 DGROUP:0000
+N2				  Dword	 DGROUP:0004
+PROGRAM				  Near	 _TEXT:0000
+REZ				  Dword	 DGROUP:0008
+SFARSIT				  Near	 _TEXT:0020
+START				  Near	 _TEXT:0010
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  000C Word	  Public  DATA
+_TEXT				  16  0024 Word	  Public  CODE
+

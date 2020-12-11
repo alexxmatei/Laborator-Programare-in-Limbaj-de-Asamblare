@@ -1,0 +1,65 @@
+Turbo Assembler	 Version 3.0	    12/02/20 20:23:06	    Page 1
+..\5test.ASM
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100
+      3	0000			     .data
+      4	0000  0A			     x db 10
+      5	0001  0F			     y db 15
+      6	0002  00000000sr		     adr_x dd x
+      7	0006  00000001sr		     adr_y dd y
+      8	000A			     .code
+      9	0000				     program:
+     10					     ; muta adresa segmentului de date in DS
+     11	0000				     initializare:
+     12	0000  B8 0000s				     mov ax, @data
+     13	0003  8E D8				     mov ds, ax
+     14	0005				     start:
+     15	0005  C5 36 0002r			     lds si, adr_x
+     16					     ; iesire din program
+     17	0009				     sfarsit:
+     18	0009  B4 4C				     mov ah, 4Ch     ; functia DOS de iesire din program
+     19	000B  CD 21				     int 21h
+     20				     end program
+Turbo Assembler	 Version 3.0	    12/02/20 20:23:06	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "12/02/20"
+??FILENAME			  Text	 "5test	  "
+??TIME				  Text	 "20:23:06"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 5TEST
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+ADR_X				  Dword	 DGROUP:0002
+ADR_Y				  Dword	 DGROUP:0006
+INITIALIZARE			  Near	 _TEXT:0000
+PROGRAM				  Near	 _TEXT:0000
+SFARSIT				  Near	 _TEXT:0009
+START				  Near	 _TEXT:0005
+X				  Byte	 DGROUP:0000
+Y				  Byte	 DGROUP:0001
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  000A Word	  Public  DATA
+_TEXT				  16  000D Word	  Public  CODE
+

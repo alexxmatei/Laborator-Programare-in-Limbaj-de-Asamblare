@@ -1,9 +1,9 @@
 .model small
 .stack 100
 .data
-	var1 dw 11h
-	var2 db 0BDh
-	tabc db '10757'
+	var1 dw 7Ch
+	var2 db 3Bh
+	tabc db '64363'
 .code
 program:
 	; muta adresa segmentului de date in DS
