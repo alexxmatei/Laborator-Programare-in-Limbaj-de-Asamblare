@@ -1,0 +1,147 @@
+Turbo Assembler	 Version 3.0	    12/13/20 20:00:24	    Page 1
+l9e1.ASM
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100
+      3	*000			     sablon struc
+      4	*000  01*(????)		       _bp    dw ?
+      5	*002  01*(????)		       _cs_ip dw ?
+      6	*004  01*(????)		       _n     dw ?
+      7	*006			     sablon ends
+      8	0000			     .data
+      9	0000  0007			     n	 dw 7
+     10	0002  ????????		       rez dd ?
+     11	0006			     .code
+     12
+     13	0000			       fact proc near
+     14	0000  55			   push	bp    ;	salvare	BP
+     15	0001  8B EC			   mov bp, sp ;	initializare cu	varful stivei
+     16	0003  9C			   pushf      ;	salvarea indicatorilor de conditie
+     17	0004  53			   push	bx
+     18	0005  8B 5E 04			   mov bx, word	ptr [bp]._n ; preluarea	parametrului
+     19	0008  83 FB 00			   cmp bx, 0  ;	conditia de oprire
+     20	000B  75 09			   jne rec
+     21	000D  B8 0001			   mov ax, 1  ;	0! = 1
+     22	0010  BA 0000			   mov dx, 0
+     23	0013  EB 0C 90			   jmp stop
+     24	0016				 rec:
+     25	0016  4B			   dec bx	     ; termenul	urmator
+     26	0017  53			   push	bx	     ; transferul parametrului
+     27	0018  E8 FFE5			   call	near ptr fact; apel recursiv cu	rezultat in DX:AX
+     28	001B  83 C4 02			   add sp, 2
+     29	001E  F7 66 04			   mul word ptr[bp]._n
+     30	0021				 stop:
+     31	0021  5B			   pop bx     ;	refacerea registrului BX
+     32	0022  9D			   popf	      ;	refacerea indicatorilor	de conditie
+     33	0023  5D			   pop bp
+     34	0024  C3			   retn
+     35	0025			       fact endp
+     36
+     37	0025			       afis proc near
+     38	0025  50			   push	ax	; salvarea registrelor
+     39	0026  53			   push	bx
+     40	0027  51			   push	cx
+     41	0028  52			   push	dx
+     42	0029  8B 16 0004r		   mov dx, word	ptr rez	+ 2 ; preluare din rezultat
+     43	002D  A1 0002r			   mov ax, word	ptr rez
+     44	0030  B9 0000			   mov cx, 0		    ; initializarea contorului
+     45	0033  BB 000A			   mov bx, 10
+     46	0036				 next:
+     47	0036  F7 F3			   div bx     ;	se obtine pe rand in DX
+     48						      ;	fiecare	cifra zecimala
+     49	0038  52			   push	dx    ;	salvarea in stiva e necesara pentru
+     50						      ;	afisarea in ordinea corecta
+     51	0039  BA 0000			   mov dx, 0
+     52	003C  41			   inc cx
+     53	003D  3D 0000			   cmp ax, 0
+     54	0040  75 F4			   jne next
+     55	0042				 print:
+     56	0042  5A			   pop dx	; preluare din stiva
+     57	0043  80 C2 30			   add dl, 30h	; conversie la codul ASCII
+Turbo Assembler	 Version 3.0	    12/13/20 20:00:24	    Page 2
+l9e1.ASM
+
+
+
+     58	0046  B4 02			   mov ah, 02h
+     59	0048  CD 21			   int 21h	; afisarea
+     60	004A  E2 F6			   loop	print
+     61	004C  5A			   pop dx	; refacerea registrelor
+     62	004D  59			   pop cx
+     63	004E  5B			   pop bx
+     64	004F  58			   pop ax
+     65	0050  C3			   retn
+     66	0051			       afis endp
+     67	0051				     program:
+     68					     ; muta adresa segmentului de date in DS
+     69	0051				     initializare:
+     70	0051  B8 0000s				     mov ax, @data
+     71	0054  8E D8				     mov ds, ax
+     72	0056  A1 0000r			 mov ax, n
+     73	0059				     start:
+     74	0059  50			 push ax      ;	transferul parametrului	prin stiva
+     75	005A  E8 FFA3			 call near ptr fact	  ; DX:AX <- rezultatul
+     76	005D  83 C4 02			 add sp, 2
+     77	0060  89 16 0004r		 mov word ptr rez + 2, dx ; rezultatul se depune in rez
+     78	0064  A3 0002r			 mov word ptr rez, ax
+     79	0067  C7 06 0002r FFFF		 mov word ptr rez, 0FFFFh
+     80	006D  C7 06 0004r 000A		 mov word ptr rez + 2, 0Ah
+     81	0073  E8 FFAF			 call near ptr afis	  ; afisarea rezultatului
+     82					     ; iesire din program
+     83	0076				     sfarsit:
+     84	0076  B4 4C				     mov ah, 4Ch     ; functia DOS de iesire din program
+     85	0078  CD 21				     int 21h
+     86				     end program
+Turbo Assembler	 Version 3.0	    12/13/20 20:00:24	    Page 3
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "12/13/20"
+??FILENAME			  Text	 "l9e1	  "
+??TIME				  Text	 "20:00:24"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 L9E1
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+AFIS				  Near	 _TEXT:0025
+FACT				  Near	 _TEXT:0000
+INITIALIZARE			  Near	 _TEXT:0051
+N				  Word	 DGROUP:0000
+NEXT				  Near	 _TEXT:0036
+PRINT				  Near	 _TEXT:0042
+PROGRAM				  Near	 _TEXT:0051
+REC				  Near	 _TEXT:0016
+REZ				  Dword	 DGROUP:0002
+SFARSIT				  Near	 _TEXT:0076
+START				  Near	 _TEXT:0059
+STOP				  Near	 _TEXT:0021
+
+Structure Name			  Type	Offset
+
+SABLON
+ _BP				  Word	 0000
+ _CS_IP				  Word	 0002
+ _N				  Word	 0004
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  0006 Word	  Public  DATA
+_TEXT				  16  007A Word	  Public  CODE
+

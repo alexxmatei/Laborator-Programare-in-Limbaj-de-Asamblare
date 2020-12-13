@@ -1,0 +1,100 @@
+Turbo Assembler	 Version 3.0	    12/13/20 14:06:13	    Page 1
+c6-4e1.ASM
+
+
+
+      1	0000			     .model small
+      2	0000			     .stack 100
+      3	*000			     sablon struc
+      4	*000  01*(????)		       _bp    dw ?
+      5	*002  01*(????????)	       _cs_ip dd ?
+      6	*006  01*(????)		       n      dw ?
+      7	*008			     sablon ends
+      8	0000			     .data
+      9
+     10	0000			     .code
+     11	0000			       afis_cifre proc far
+     12	0000  55			   push	bp
+     13	0001  8B EC			   mov bp, sp
+     14	0003  52			   push	dx
+     15	0004  50			   push	ax
+     16	0005  53			   push	bx
+     17	0006  8B 46 06			   mov ax, [bp].n
+     18	0009  3D 000A			   cmp ax, 10
+     19	000C  8A D0			   mov dl, al ;	AX < 10
+     20	000E  72 0C			   jb afis_1
+     21	0010  BB 000A			   mov bx, 10
+     22	0013  33 D2			   xor dx, dx
+     23	0015  F7 F3			   div bx  ; AX	<- catul
+     24	0017  50			   push	ax ; DX	<- restul
+     25	0018  0E E8 FFE4		   call	far ptr	afis_cifre
+     26	001C				 afis_1:
+     27	001C  80 C2 30			   add dl, '0'
+     28	001F  B4 02			   mov ah, 2
+     29	0021  CD 21			   int 21h
+     30	0023  5B			   pop bx
+     31	0024  58			   pop ax
+     32	0025  5A			   pop dx
+     33	0026  5D			   pop bp
+     34	0027  CA 0002			   retf	2
+     35	002A			       afis_cifre endp
+     36	002A				     program:
+     37					     ; muta adresa segmentului de date in DS
+     38	002A				     initializare:
+     39	002A  B8 0000s				     mov ax, @data
+     40	002D  8E D8				     mov ds, ax
+     41	002F  B8 0000			 mov ax, 0
+     42	0032				     start:
+     43	0032  50 55 8B EC C7 46	02+	 push 0FFFFh
+     44	      FFFF 5D
+     45	003C  0E E8 FFC0		 call far ptr afis_cifre
+     46					     ; iesire din program
+     47	0040				     sfarsit:
+     48	0040  B4 4C				     mov ah, 4Ch     ; functia DOS de iesire din program
+     49	0042  CD 21				     int 21h
+     50				     end program
+Turbo Assembler	 Version 3.0	    12/13/20 14:06:13	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "12/13/20"
+??FILENAME			  Text	 "c6-4e1  "
+??TIME				  Text	 "14:06:13"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 C6-4E1
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+AFIS_1				  Near	 _TEXT:001C
+AFIS_CIFRE			  Far	 _TEXT:0000
+INITIALIZARE			  Near	 _TEXT:002A
+PROGRAM				  Near	 _TEXT:002A
+SFARSIT				  Near	 _TEXT:0040
+START				  Near	 _TEXT:0032
+
+Structure Name			  Type	Offset
+
+SABLON
+ _BP				  Word	 0000
+ _CS_IP				  Dword	 0002
+ N				  Word	 0006
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0064 Para	  Stack	  STACK
+  _DATA				  16  0000 Word	  Public  DATA
+_TEXT				  16  0044 Word	  Public  CODE
+
