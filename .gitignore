@@ -1,1 +1,8 @@
+#   LEGEND
+# **/*.extension means that all files with that extensions in all directories are ignored
+# /*/*.extensions means that all files with that extensions in all BUT the root folder are ignored (root folder files are not ignored).
 .vscode
+**/*.obj
+**/*.lst
+**/*.map
+/*/*.exe
