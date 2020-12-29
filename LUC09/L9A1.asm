@@ -1,3 +1,9 @@
+linie_noua MACRO
+	mov dl, 10
+	mov ah, 2
+	int 21h
+ENDM
+
 .model small
 .stack 100
 sablon struc
@@ -81,6 +87,7 @@ sablon1 ends
     call far ptr afis       ; afisarea rezultatului
 	; iesire din program
 	sfarsit:
+    linie_noua
 		mov ah, 4Ch     ; functia DOS de iesire din program
 		int 21h
 end program
