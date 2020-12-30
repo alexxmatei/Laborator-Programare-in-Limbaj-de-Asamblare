@@ -11,38 +11,64 @@
 	// 		"$2"
 	// 	],
 	// 	"description": "Log output to console"
-	// }
-	"Template snippet 1": {
-	"prefix": "templ2",
-	"body": [
-	"linie_noua MACRO",
-	"  mov dl, 10",
-	"  mov ah, 2",
-  "  int 21h",
-	"ENDM",
-	"",
-	".model small",
-	".stack 100",
-	".data",
-	"  ${1:;definire date}",	
-	".code",
-	"  program:",
-	"  ; muta adresa segmentului de date in DS",
-	"  initializare:",
-	"    mov ax, @data",
-  "    mov ds, ax",
-  "",
-	"  start:",
-  "    ${2:;instructiuni program}",	
-  "",
-  "  ; iesire din program",
-	"  sfarsit:",
-	"    ; adauga un caracter de tip 'newline', linie noua",
-	"    linie_noua",
-	"    mov ah, 4Ch    ; functia DOS de iesire din program",
-	"    int 21h",
-	"end program",
-	],
-	"description": "Assembly program template nr. 2."
-	}
+  // }
+  "Template snippet 1": {
+    "prefix": "templ1",
+    "body": [
+    ".model small",
+    ".stack 100",
+    ".data",
+    "  ${1:;definire date}",	
+    ".code",
+    "  program:",
+    "  ; muta adresa segmentului de date in DS",
+    "  initializare:",
+    "    mov ax, @data",
+    "    mov ds, ax",
+    "",
+    "  start:",
+    "    ${2:;instructiuni program}",	
+    "",
+    "  ; iesire din program",
+    "  sfarsit:",
+    "    mov ah, 4Ch    ; functia DOS de iesire din program",
+    "    int 21h",
+    "end program"
+    ],
+    "description": "Assembly program template nr. 1."
+  },
+
+  "Template snippet 2": {
+    "prefix": "templ2",
+    "body": [
+    "linie_noua MACRO",
+    "  mov dl, 10",
+    "  mov ah, 2",
+    "  int 21h",
+    "ENDM",
+    "",
+    ".model small",
+    ".stack 100",
+    ".data",
+    "  ${1:;definire date}",	
+    ".code",
+    "  program:",
+    "  ; muta adresa segmentului de date in DS",
+    "  initializare:",
+    "    mov ax, @data",
+    "    mov ds, ax",
+    "",
+    "  start:",
+    "    ${2:;instructiuni program}",	
+    "",
+    "  ; iesire din program",
+    "  sfarsit:",
+    "    ; adauga un caracter de tip 'newline', linie noua",
+    "    linie_noua",
+    "    mov ah, 4Ch    ; functia DOS de iesire din program",
+    "    int 21h",
+    "end program"
+    ],
+    "description": "Assembly program template nr. 2."
+  }
 }
