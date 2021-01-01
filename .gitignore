@@ -1,9 +1,9 @@
 #   LEGEND
 # **/*.extension means that all files with that extensions in all directories are ignored
-# /*/*.extensions means that all files with that extensions in all BUT the root folder are ignored (root folder files are not ignored).
+# /*/**/*.extensions means that all files with that extensions in all BUT the root folder are ignored (root folder files are not ignored).
 .vscode
 workspace.code-workspace
 **/*.obj
 **/*.lst
 **/*.map
-/*/*.exe
+/*/**/*.exe
