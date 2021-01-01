@@ -4,8 +4,8 @@
 	var db ?
 	saispe dw 16
 	tabc db '0123456789ABCDEF'
-	msj1 db "Introdu un numar:$"
-	msj2 db "Rezultat mai mare de 16 biti.$"
+	msj1 db 'Introdu un numar:$'
+	msj2 db 'Rezultat mai mare de 16 biti.$'
 .code
 	program:
 	; muta adresa segmentului de date in DS
