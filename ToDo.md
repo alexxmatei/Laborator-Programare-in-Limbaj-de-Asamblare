@@ -1,3 +1,22 @@
+- Go through all the problems in the laboratory documentation, course and other materials for this subject
+    - solve all the problems and create programs that help the students better understand certain concepts
+    - make example programs for them to run and understand
+        - they will then solve proposed problems based on the example programs provided
+- Reformat early programs:
+    - to all use spaces instead of tabs (test in debugger after to see if the program displays correctly)
+    - so that the comments fit within the debugger's character limit (test in debugger after to see if the program displays correctly)
+    - to use the same template (check how to name .code segment and end vs ends at the end of file)
 - Create a "Cleanup" script to remove all generated files from the project.
 - Document How to setup Dosbox, how to configure it, how to set a path (and how exactly DOS finds the files it needs from the path)
 - Configure .md files
+- Create a VS Code extension in romanian to help students:
+    - define different keywords and provide commentary (like Roncho's Assembly 8086 (TASM) https://marketplace.visualstudio.com/items?itemName=Roncho.assembly-8086)
+        - define memory size indicators for relevant keywords (ex: for model sizes: small, tiny, etc. or defines: db, dw, dd, etc.);
+        - define descriptions for different directives (.model, .data, .code, end, labels, $, offset, etc.)
+        - define different types of numbers (hex, octal, binary, decimal, and show their equivalent value in the snippets)
+    - create templates for different useful structures: macros, procedures, a predefined template, etc.
+    - add a way to directly run / debug programs from VS Code (Make it hard to access to only present this to the students when they get used to TASM, TLINK & TD)
+    - create a static code checker to verify different possibile proglems
+        - for example moving an immediate value to a memory location without using a pointer (which would result in an error due to ambiguity)
+          ex: (mov [SI], 2) vs. (mov byte ptr [SI], 2)
+    - translate the whole extension and upload it on the VS code market
