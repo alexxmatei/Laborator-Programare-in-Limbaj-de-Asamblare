@@ -9,6 +9,7 @@
     - so that the comments fit within the debugger's character limit (test in debugger after to see if the program displays correctly)
     - to use the same template (check how to name .code segment and end vs ends at the end of file)
 - Create a "Cleanup" script to remove all generated files from the project.
+- Modify DBX scripts to save file before running (if possible, find out if it is)
 - Document How to setup Dosbox, how to configure it, how to set a path (and how exactly DOS finds the files it needs from the path)
 - Configure .md files
 - Create a VS Code extension in romanian to help students: (Create a 8086 TASM IDE)
@@ -16,6 +17,7 @@
         - define memory size indicators for relevant keywords (ex: for model sizes: small, tiny, etc. or defines: db, dw, dd, etc.);
         - define descriptions for different directives (.model, .data, .code, end, labels, $, offset, etc.)
         - define different types of numbers (hex, octal, binary, decimal, and show their equivalent value in the snippets)
+        - define different color and macro extension for macro values (ex: lengthSir1 equ $-sir1, check Roncho's extension on how it is done)
     - create templates for different useful structures: macros, procedures, a predefined template, etc.
     - add a way to directly run / debug programs from VS Code (Make it hard to access to only present this to the students when they get used to TASM, TLINK & TD)
     - create a static code checker to verify different possibile proglems
