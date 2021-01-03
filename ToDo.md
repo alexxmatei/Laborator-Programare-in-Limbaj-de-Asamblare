@@ -1,4 +1,5 @@
 - Assembly Unit Tests for Homework Problems (Try to program them either in C or Assembly)
+- Remaster homework problems with stages (Ex: Lvl 1: do something; Lvl2: print result of what you've done; Lvl3: user input; Lvl4: error check input; Lvl5: upgrade number or result range for which interval works, etc.)
 - Go through all the problems in the laboratory documentation, course and other materials for this subject
     - solve all the problems and create programs that help the students better understand certain concepts
     - make example programs for them to run and understand
