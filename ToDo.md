@@ -1,3 +1,4 @@
+- Assembly Unit Tests for Homework Problems (Try to program them either in C or Assembly)
 - Go through all the problems in the laboratory documentation, course and other materials for this subject
     - solve all the problems and create programs that help the students better understand certain concepts
     - make example programs for them to run and understand
@@ -20,3 +21,5 @@
         - for example moving an immediate value to a memory location without using a pointer (which would result in an error due to ambiguity)
           ex: (mov [SI], 2) vs. (mov byte ptr [SI], 2)
     - translate the whole extension and upload it on the VS code market
+- .asm extension snippets
+    - modify template to allow procedure and macro declaration (write a newline before & after if declaring a procedure, if not leave blank)
