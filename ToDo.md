@@ -11,7 +11,7 @@
 - Create a "Cleanup" script to remove all generated files from the project.
 - Document How to setup Dosbox, how to configure it, how to set a path (and how exactly DOS finds the files it needs from the path)
 - Configure .md files
-- Create a VS Code extension in romanian to help students:
+- Create a VS Code extension in romanian to help students: (Create a 8086 TASM IDE)
     - define different keywords and provide commentary (like Roncho's Assembly 8086 (TASM) https://marketplace.visualstudio.com/items?itemName=Roncho.assembly-8086)
         - define memory size indicators for relevant keywords (ex: for model sizes: small, tiny, etc. or defines: db, dw, dd, etc.);
         - define descriptions for different directives (.model, .data, .code, end, labels, $, offset, etc.)
