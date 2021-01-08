@@ -1,3 +1,9 @@
+linie_noua MACRO
+  mov dl, 10
+  mov ah, 2
+  int 21h
+ENDM
+
 .model small
 .stack 100
 .data
@@ -27,9 +33,7 @@
 	afisare endp
 	; revenire in sistemul de operare
 	sfarsit:
-		mov ah, 4ch         ; functia DOS de iesire in sistemul de operare
+		linie_noua
+		mov ah, 4Ch         ; functia DOS de iesire in sistemul de operare
 		int 21h
 end
-
-
-
