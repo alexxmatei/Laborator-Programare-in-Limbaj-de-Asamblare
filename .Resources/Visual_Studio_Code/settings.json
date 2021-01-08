@@ -1,0 +1,16 @@
+// Language specific settings for .asm files
+{
+  "editor.rulers": [
+      58
+  ],
+  "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
+  "workbench.colorTheme": "tasmDark",
+  "window.menuBarVisibility": "default",
+  "workbench.statusBar.visible": true,
+  "workbench.activityBar.visible": true,
+  "editor.renderControlCharacters": false,
+  "editor.renderWhitespace": "all",
+  "editor.tabSize": 2,
+  "editor.acceptSuggestionOnEnter": "off",
+  "editor.insertSpaces": true
+}
