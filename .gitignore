@@ -8,3 +8,5 @@ workspace.code-workspace
 **/*.map
 /*/**/*.exe
 **/*.swp
+**/*.$$$
+**/*.dsk
