@@ -28,3 +28,9 @@
     - translate the whole extension and upload it on the VS code market
 - .asm extension snippets
     - modify template to allow procedure and macro declaration (write a newline before & after if declaring a procedure, if not leave blank)
+- Make a cheatsheet for students (A4 double sided)
+- Check against a fresh install if TASM (no extension) or any other files are extra.
+- Figure out how to compile/assemble both an .asm and .c file at the same tine from BC (Borland C++ compiler)
+- Move BORLAND folder from Tasm to root (to respect book location & to separate ASM and C)
+- Create a C/ASM template
+- Remove useless BORLANDC files, only keep what is used (or keep all and modify .gitignore to not upload the unused files)
