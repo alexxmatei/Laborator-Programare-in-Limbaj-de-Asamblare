@@ -19,6 +19,7 @@ putsi macro x
 endm
 
 .model small
+  extrn afis_sir:far
 .stack 100 ; dimensiunea stivei
 .code
 program:
@@ -36,24 +37,5 @@ program:
     linie_noua
     mov ah, 4Ch    ; functia DOS de iesire din program
     int 21h
-
-afis_sir proc far
-    push ax
-    push si
-    push dx
-  iar:
-    mov dl, [si]
-    test dl, dl
-    jz ultim
-    mov ah, 2h
-    int 21h
-    inc si
-    jmp iar
-  ultim:
-    pop dx
-    pop si
-    pop ax
-    ret
-afis_sir endp
 
 end program
