@@ -13,9 +13,9 @@ ENDM
 	nr1 dd 0000FFFFh
 	nr2 dd 00000001h
 	rez1 dd ?
-	nr3 db 
-	nr4 db 
-	rez2 dd ?
+	;nr3 db 
+	;nr4 db 
+	;rez2 dd ?
 .code
 	program:
 	; muta adresa segmentului de date in DS
@@ -23,7 +23,7 @@ ENDM
 		mov ax, @data
 		mov ds, ax
 	start:
-		adunare32Biti nr1, nr2, rez
+		adunare32Biti nr1, nr2, rez1
 		;adunare32Biti ax, bx 
 	; iesire din program
 	sfarsit:
