@@ -1,7 +1,8 @@
 .model small
 .stack 100
 .data
-	nrHex dw 05555h
+	;nrHex dw 0AAAAh (does not work for hex letters)
+  nrHex dw 05555h
 .code
 	program:
 	; muta adresa segmentului de date in DS
