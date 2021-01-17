@@ -1,4 +1,3 @@
-// Language specific settings for .asm files
 {
   "editor.rulers": [
       58
@@ -11,6 +10,15 @@
   "editor.renderControlCharacters": false,
   "editor.renderWhitespace": "all",
   "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "editor.insertSpaces": true,
+  "git.ignoredRepositories": [
+      "c:\\tasm1.4\\tasm"
+  ],
+  "git.autoRepositoryDetection": false,
+  "diffEditor.ignoreTrimWhitespace": false,
   "editor.acceptSuggestionOnEnter": "off",
-  "editor.insertSpaces": true
+  "editor.suggestOnTriggerCharacters": false,
+  "editor.fontSize": 16
+
 }
