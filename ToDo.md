@@ -34,3 +34,4 @@
 - Move BORLAND folder from Tasm to root (to respect book location & to separate ASM and C)
 - Create a C/ASM template
 - Remove useless BORLANDC files, only keep what is used (or keep all and modify .gitignore to not upload the unused files)
+- Modify gitignore file to ignore all executable files from root except important ones (like Tasm.exe, Tlink.exe, etc.)
