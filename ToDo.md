@@ -33,5 +33,6 @@
 - Figure out how to compile/assemble both an .asm and .c file at the same tine from BC (Borland C++ compiler)
 - Move BORLAND folder from Tasm to root (to respect book location & to separate ASM and C)
 - Create a C/ASM template
+- Add a "Readme.md" file to each subfolder to describe what is there. For example, for laboratories the requirements for each program can be written.
 - Remove useless BORLANDC files, only keep what is used (or keep all and modify .gitignore to not upload the unused files)
 - Modify gitignore file to ignore all executable files from root except important ones (like Tasm.exe, Tlink.exe, etc.)
