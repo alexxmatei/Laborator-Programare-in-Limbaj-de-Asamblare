@@ -1,0 +1,6 @@
+﻿
+
+Private Sub Workbook_Open()
+    folderPath = "D:\Cloud\OneDrive\Programare în Limbaj de Asamblare\Colocviu\Subiecte " & Format(Now, "yy-mm-dd_hh-mm-ss") & "\"
+    MkDir folderPath
+End Sub

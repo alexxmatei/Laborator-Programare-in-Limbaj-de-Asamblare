@@ -1,0 +1,8 @@
+﻿Private Sub Worksheet_Change(ByVal Target As Range)
+    Application.EnableEvents = False
+    ShuffleGridE16_E20
+    'CopyAssemblyProgram
+    'saveRangeAsTextToPath
+    Application.EnableEvents = True
+End Sub
+
